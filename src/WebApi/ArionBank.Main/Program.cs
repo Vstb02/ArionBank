@@ -1,8 +1,12 @@
+using ArionBank.Persistence;
+using ArionBank.Persistence.Contexts;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var config = builder.Configuration;
 
 builder.Logging.ClearProviders();
 var loggerConfig = new LoggerConfiguration()
@@ -15,7 +19,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddPersistence(config);
+
 var app = builder.Build();
+
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        DbInitializer.Initialize(context);
+    }
+    catch (Exception exception)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        Log.Error(exception, "Не удлось добавить базу данных");
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
