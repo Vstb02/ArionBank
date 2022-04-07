@@ -15,6 +15,5 @@ namespace ArionBank.Application.Common.Interfaces
         DbSet<Credit> Credits { get; set; }
         DbSet<OperationsHistory> OperationsHistories { get; set; }
         Task<int> SaveChangesAsync();
-        Task ToListAsync();
     }
 }

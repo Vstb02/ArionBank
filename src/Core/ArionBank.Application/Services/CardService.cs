@@ -22,6 +22,7 @@ namespace ArionBank.Application.Services
             DateTime now = DateTime.Now;
             var card = new Card()
             {
+                Id = Guid.NewGuid(),
                 UserId = request.UserId,
                 Name = request.Name,
                 Surname = request.Surname,

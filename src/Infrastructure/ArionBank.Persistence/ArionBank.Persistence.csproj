@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\scr\Core\ArionBank.Application\ArionBank.Application.csproj" />
     <ProjectReference Include="..\..\Core\ArionBank.Application\ArionBank.Application.csproj" />
   </ItemGroup>
 

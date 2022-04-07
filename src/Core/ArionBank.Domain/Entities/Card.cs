@@ -12,7 +12,6 @@ namespace ArionBank.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
         [MaxLength(200)]
         public string Number { get; set; }
         [MaxLength(200)]
@@ -29,5 +28,6 @@ namespace ArionBank.Domain.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public DateTime Actived { get; set; }
+        public Guid UserId { get; set; }
     }
 }
