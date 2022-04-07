@@ -59,6 +59,7 @@ namespace ArionBank.Application.Services
             model.Balance = card.Balance;
             model.Status = card.Status;
             model.Type = card.Type;
+            model.Number = card.Number;
 
             return model;
         }
@@ -66,7 +67,8 @@ namespace ArionBank.Application.Services
         public async Task<CardListModel> GetAllByUserId(Guid id)
         {
             var cardsList = new CardListModel();
-            cardsList.Cards = (from Item in _context.Cards.Where(x => x.UserId == id)
+            var cards = _context.Cards.Where(x => x.UserId == id);
+            cardsList.Cards = (from Item in cards
                                select new CardModel
                                {
                                    Name = Item.Name,
@@ -79,11 +81,6 @@ namespace ArionBank.Application.Services
                                    Type = Item.Type,
                                    Status = Item.Status,
                                }).ToList();
-
-            if(cardsList == null)
-            {
-                throw new Exception($"Card by UserId {id} not found");
-            }
 
             return cardsList;
         }
