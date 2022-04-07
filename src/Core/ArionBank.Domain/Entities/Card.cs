@@ -12,6 +12,7 @@ namespace ArionBank.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         [MaxLength(200)]
         public string Number { get; set; }
         [MaxLength(200)]

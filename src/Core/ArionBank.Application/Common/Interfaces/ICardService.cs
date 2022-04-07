@@ -9,8 +9,8 @@ namespace ArionBank.Application.Common.Interfaces
 {
     public interface ICardService
     {
-        Task GetAll();
-        Task GetCardById(string id);
-        Task CreateCard(CardCreateModel model);
+        Task<Guid> CreateCard(CardCreateModel request);
+        Task<CardModel> GetCardById(Guid id);
+        Task<CardListModel> GetAllByUserId(Guid id);
     }
 }

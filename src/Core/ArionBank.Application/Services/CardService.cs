@@ -17,11 +17,12 @@ namespace ArionBank.Application.Services
         {
             _context = context;
         }
-        public async Task Create(CardCreateModel request)
+        public async Task<Guid> CreateCard(CardCreateModel request)
         {
             DateTime now = DateTime.Now;
             var card = new Card()
             {
+                UserId = request.UserId,
                 Name = request.Name,
                 Surname = request.Surname,
                 Bonus = 0,
@@ -35,7 +36,57 @@ namespace ArionBank.Application.Services
             };
 
             await _context.Cards.AddAsync(card);
-        } 
+            await _context.SaveChangesAsync();
+
+            return card.Id;
+        }
+
+        public async Task<CardModel> GetCardById(Guid id)
+        {
+            var model = new CardModel();
+            var card = await _context.Cards.FindAsync(id);
+            if (card == null)
+            {
+                throw new Exception($"Card by {id} not found");
+            }
+
+            model.Name = card.Name;
+            model.Surname = card.Surname;
+            model.Bonus = card.Bonus;
+            model.PaymentSystem = card.PaymentSystem;
+            model.Actived = card.Actived;
+            model.Balance = card.Balance;
+            model.Status = card.Status;
+            model.Type = card.Type;
+
+            return model;
+        }
+
+        public async Task<CardListModel> GetAllByUserId(Guid id)
+        {
+            var cardsList = new CardListModel();
+            cardsList.Cards = (from Item in _context.Cards.Where(x => x.UserId == id)
+                               select new CardModel
+                               {
+                                   Name = Item.Name,
+                                   Surname = Item.Surname,
+                                   Bonus = Item.Bonus,  
+                                   PaymentSystem = Item.PaymentSystem,
+                                   Actived = Item.Actived,
+                                   Balance = Item.Balance,
+                                   Number = Item.Number,
+                                   Type = Item.Type,
+                                   Status = Item.Status,
+                               }).ToList();
+
+            if(cardsList == null)
+            {
+                throw new Exception($"Card by UserId {id} not found");
+            }
+
+            return cardsList;
+        }
+
         public string GenereateNumberCard(PaymentSystems ps)
         {
             Random random = new Random();
@@ -52,8 +103,7 @@ namespace ArionBank.Application.Services
                     num3 = 2312;
                     break;
             }
-
-            
+   
 
             return num3.ToString() + num1.ToString() + num2.ToString();
         }

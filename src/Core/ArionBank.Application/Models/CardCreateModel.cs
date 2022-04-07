@@ -10,6 +10,7 @@ namespace ArionBank.Application.Models
 {
     public class CardCreateModel
     {
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public PaymentSystems PaymentSystem { get; set; }

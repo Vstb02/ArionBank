@@ -12,7 +12,6 @@ namespace ArionBank.Persistence.Contexts
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Card> Cards { get; set; }
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
         public DbSet<Credit> Credits { get; set; }
         public DbSet<OperationsHistory> OperationsHistories { get; set; }

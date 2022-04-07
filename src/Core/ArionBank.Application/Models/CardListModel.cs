@@ -8,6 +8,6 @@ namespace ArionBank.Application.Models
 {
     public class CardListModel
     {
-        List<CardModel> Cards = new List<CardModel>();
+        public List<CardModel> Cards = new List<CardModel>();
     }
 }
