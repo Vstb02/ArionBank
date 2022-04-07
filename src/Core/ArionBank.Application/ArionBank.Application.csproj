@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\..\src\Core\ArionBank.Domain\ArionBank.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

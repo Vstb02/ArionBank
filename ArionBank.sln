@@ -7,17 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{50FF83B2-F5B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{30F3B5D0-BFCF-4E6C-A04A-D9DE45B0310D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArionBank.Main", "src\WebApi\ArionBank.Main\ArionBank.Main.csproj", "{B7035692-48A1-44C6-802E-24E42694ECF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Main", "src\WebApi\ArionBank.Main\ArionBank.Main.csproj", "{B7035692-48A1-44C6-802E-24E42694ECF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8D2D6A54-4E89-4468-B03D-E88CBC089F37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArionBank.Domain", "src\Core\ArionBank.Domain\ArionBank.Domain.csproj", "{2886EF7A-7C32-4DCF-92E2-54B063A170DF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArionBank.Application", "scr\Core\ArionBank.Application\ArionBank.Application.csproj", "{E12DDA5B-548F-491D-AF43-085390A4970A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Domain", "src\Core\ArionBank.Domain\ArionBank.Domain.csproj", "{2886EF7A-7C32-4DCF-92E2-54B063A170DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{DCF18CCF-B405-4650-BF4C-1E54F166F604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArionBank.Persistence", "src\Infrastructure\ArionBank.Persistence\ArionBank.Persistence.csproj", "{7FD5B355-9757-4316-9A25-595C284543D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Persistence", "src\Infrastructure\ArionBank.Persistence\ArionBank.Persistence.csproj", "{7FD5B355-9757-4316-9A25-595C284543D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Application", "src\Core\ArionBank.Application\ArionBank.Application.csproj", "{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +33,14 @@ Global
 		{2886EF7A-7C32-4DCF-92E2-54B063A170DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2886EF7A-7C32-4DCF-92E2-54B063A170DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2886EF7A-7C32-4DCF-92E2-54B063A170DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E12DDA5B-548F-491D-AF43-085390A4970A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E12DDA5B-548F-491D-AF43-085390A4970A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E12DDA5B-548F-491D-AF43-085390A4970A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E12DDA5B-548F-491D-AF43-085390A4970A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FD5B355-9757-4316-9A25-595C284543D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FD5B355-9757-4316-9A25-595C284543D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FD5B355-9757-4316-9A25-595C284543D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FD5B355-9757-4316-9A25-595C284543D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,9 +50,9 @@ Global
 		{B7035692-48A1-44C6-802E-24E42694ECF8} = {30F3B5D0-BFCF-4E6C-A04A-D9DE45B0310D}
 		{8D2D6A54-4E89-4468-B03D-E88CBC089F37} = {50FF83B2-F5B7-4375-A679-97F28F1F590F}
 		{2886EF7A-7C32-4DCF-92E2-54B063A170DF} = {8D2D6A54-4E89-4468-B03D-E88CBC089F37}
-		{E12DDA5B-548F-491D-AF43-085390A4970A} = {8D2D6A54-4E89-4468-B03D-E88CBC089F37}
 		{DCF18CCF-B405-4650-BF4C-1E54F166F604} = {50FF83B2-F5B7-4375-A679-97F28F1F590F}
 		{7FD5B355-9757-4316-9A25-595C284543D7} = {DCF18CCF-B405-4650-BF4C-1E54F166F604}
+		{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA} = {8D2D6A54-4E89-4468-B03D-E88CBC089F37}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {943B8982-C4BA-4627-BBD5-805220F879C7}
