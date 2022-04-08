@@ -21,14 +21,14 @@ namespace ArionBank.Application.Services
         public async Task<OperationResult> InfestFreeTransfer(OperationModel model)
         {
             OperationResult result = new OperationResult();
-            var card1 = _context.Cards.Where(x => x.Id == model.CardId).FirstOrDefault();
+            var card1 = (await _context.Cards.Where(x => x.Id == model.CardId).ToListAsync()).FirstOrDefault();
             if (card1 == null)
             {
                 result.Errors.Append("Выбранный счет не найден");
                 throw new Exception($"Card with id {model.CardId} not found");
             }
 
-            var card2 = _context.Cards.Where(x => x.Number == model.Number).FirstOrDefault();
+            var card2 = (await _context.Cards.Where(x => x.Number == model.Number).ToListAsync()).FirstOrDefault();
 
             if (card2 == null)
             {

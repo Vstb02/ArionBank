@@ -2,6 +2,7 @@
 using ArionBank.Application.Models;
 using ArionBank.Domain.Entities;
 using ArionBank.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace ArionBank.Application.Services
         public async Task<CardListModel> GetAllByUserId(Guid id)
         {
             var cardsList = new CardListModel();
-            var cards = _context.Cards.Where(x => x.UserId == id);
+            var cards = await _context.Cards.Where(x => x.UserId == id).ToListAsync();
             cardsList.Cards = (from Item in cards
                                select new CardModel
                                {
