@@ -5,20 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArionBank.Domain.Entities
+namespace ArionBank.Application.Models
 {
-    public class Deposit
+    public class DepositModel
     {
-        [Key]
-        public Guid Id { get; set; }
         [MaxLength(200)]
         public int Number { get; set; }
         [MaxLength(5)]
         public decimal Procent { get; set; }
         [MaxLength(20)]
         public decimal Balance { get; set; }
-        public Guid CardId { get; set; }
-        public DateTime DateTime { get; set; }
-        public DateTime LastMoth { get; set; }
     }
 }
