@@ -12,6 +12,6 @@ namespace ArionBank.Application.Common.Interfaces
         Task<OperationResult> TransferWithPercent(OperationModel model);
         Task<OperationResult> InfestFreeTransfer(OperationModel model);
         Task<OperationHistoryListModel> AllOperationHistory();
-        Task<OperationHistoryListModel> OperationHistoryByUser(UserOperationModel model)
+        Task<OperationHistoryListModel> OperationHistoryByUser(UserOperationModel model);
     }
 }

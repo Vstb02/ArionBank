@@ -45,5 +45,10 @@ namespace ArionBank.Main.Controllers
         {
             return Ok(await _operationService.AllOperationHistory());
         }
+        [HttpGet("OperationHistoryByUser")]
+        public async Task<IActionResult> OperationHistoryByUser(UserOperationModel model)
+        {
+            return Ok(await _operationService.OperationHistoryByUser(model));
+        }
     }
 }
