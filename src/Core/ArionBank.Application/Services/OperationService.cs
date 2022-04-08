@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArionBank.Application.Services
 {
@@ -28,7 +30,7 @@ namespace ArionBank.Application.Services
 
             var card2 = _context.Cards.Where(x => x.Number == model.Number).FirstOrDefault();
 
-            if (card1 == null)
+            if (card2 == null)
             {
                 result.Errors.Append("Указанный счет не найден");
                 throw new Exception($"Card with number {model.CardId} not found");
@@ -65,7 +67,7 @@ namespace ArionBank.Application.Services
         public async Task<OperationHistoryListModel> AllOperationHistory()
         {
             OperationHistoryListModel historyListModel = new OperationHistoryListModel();
-            var operation = _context.OperationsHistories.ToList();
+            var operation = await _context.OperationsHistories.ToListAsync();
 
             historyListModel.List = (from Item in operation
                                 select new OperationHistoryModel()
