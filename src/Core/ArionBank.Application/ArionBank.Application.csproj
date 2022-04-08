@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Core\ArionBank.Domain\ArionBank.Domain.csproj" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <ProjectReference Include="..\ArionBank.Domain\ArionBank.Domain.csproj" />
   </ItemGroup>
 
 </Project>
