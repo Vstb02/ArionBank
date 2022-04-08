@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArionBank.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace ArionBank.Application.Models
         public Guid CardId { get; set; }
         public string Number { get; set; }
         public decimal Ammount { get; set; }
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
     }
 }

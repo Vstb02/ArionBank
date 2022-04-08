@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ArionBank.Application.Models
 {
-    public class CardListModel
+    public class UserOperationModel
     {
-        public List<CardModel> Cards { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

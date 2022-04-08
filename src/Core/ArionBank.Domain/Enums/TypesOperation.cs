@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArionBank.Application.Models
+namespace ArionBank.Domain.Enums
 {
-    public class CardListModel
+    public enum TypesOperation
     {
-        public List<CardModel> Cards { get; set; }
+        Sent, 
+        Arrived
     }
 }

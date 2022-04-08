@@ -26,10 +26,24 @@ namespace ArionBank.Main.Controllers
             }
             return Ok(result);
         }
+        [HttpPost("TransferWithPercent")]
+        public async Task<IActionResult> TransferWithPercent(OperationModel model)
+        {
+            var result = await _operationService.TransferWithPercent(model);
+            if (result.Errors == null)
+            {
+                result.Successful = true;
+            }
+            else
+            {
+                BadRequest(result.Errors);
+            }
+            return Ok(result);
+        }
         [HttpGet("AllOperationHistory")]
         public async Task<IActionResult> AllOperationHistory()
         {
-            return Ok(_operationService.AllOperationHistory());
+            return Ok(await _operationService.AllOperationHistory());
         }
     }
 }

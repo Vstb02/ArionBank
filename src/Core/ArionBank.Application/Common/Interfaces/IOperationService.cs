@@ -9,7 +9,9 @@ namespace ArionBank.Application.Common.Interfaces
 {
     public interface IOperationService
     {
+        Task<OperationResult> TransferWithPercent(OperationModel model);
         Task<OperationResult> InfestFreeTransfer(OperationModel model);
         Task<OperationHistoryListModel> AllOperationHistory();
+        Task<OperationHistoryListModel> OperationHistoryByUser(UserOperationModel model)
     }
 }
