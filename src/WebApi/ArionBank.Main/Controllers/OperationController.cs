@@ -27,7 +27,7 @@ namespace ArionBank.Main.Controllers
             return Ok(result);
         }
         [HttpGet("AllOperationHistory")]
-        public async Task<IActionResult> AllOperationHistory(OperationModel model)
+        public async Task<IActionResult> AllOperationHistory()
         {
             return Ok(_operationService.AllOperationHistory());
         }
