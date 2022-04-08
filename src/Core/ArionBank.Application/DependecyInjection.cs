@@ -15,6 +15,7 @@ namespace ArionBank.Application
             services)
         {
             services.AddScoped<ICardService, CardService>();
+            services.AddScoped<IOperationService, OperationService>();
         }
     }
 }
