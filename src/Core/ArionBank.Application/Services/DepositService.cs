@@ -32,7 +32,7 @@ namespace ArionBank.Application.Services
             return list;
         }
 
-        public async Task CreateDeposit(CreateDepositModel model)
+        public async Task<DepositResult> CreateDeposit(CreateDepositModel model)
         {
             var card = await _context.Deposits.FindAsync(model.CardId);
 
@@ -56,6 +56,8 @@ namespace ArionBank.Application.Services
 
             await _context.Deposits.AddAsync(deposit);
             await _context.SaveChangesAsync();
+
+            return result;
         }
 
         public int GenerateNumber()

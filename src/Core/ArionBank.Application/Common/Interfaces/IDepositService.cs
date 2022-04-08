@@ -9,7 +9,7 @@ namespace ArionBank.Application.Common.Interfaces
 {
     public interface IDepositService
     {
-        Task CreateDeposit(CreateDepositModel model);
+        Task<DepositResult> CreateDeposit(CreateDepositModel model);
         Task<DepositListModel> AllDeposit();
         Task<DepositListModel> DepositByUserId(Guid UserId);
         Task<DepositModel> DepositById(Guid DepositId);
