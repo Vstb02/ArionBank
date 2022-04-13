@@ -10,5 +10,7 @@ namespace ArionBank.Application.Common.Interfaces
     public interface ICreditService
     {
         Task<CreditResult> CreateCredit(CreateCreditModel model);
+        Task<bool> ApprovedCredit(ApprovedCreditModel model);
+        Task<CreditListModel> GetAllCredit();
     }
 }
