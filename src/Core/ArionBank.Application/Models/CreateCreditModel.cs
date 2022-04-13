@@ -4,23 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArionBank.Domain.Entities
+namespace ArionBank.Application.Models
 {
-    public class Credit
-    {
-        public Guid Id { get; set; }
-        public decimal Ammount { get; set; }
+    public class CreateCreditModel
+    { 
         public Guid CardId { get; set; }
+        public decimal Ammount { get; set; }
         public DateTime Term { get; set; }
         public string PlaceOfWork { get; set; }
         public decimal AverageSalary { get; set; }
         public bool Insurance { get; set; }
         public string Purpose { get; set; }
-        public bool Approved { get; set; }
-
-        public Credit()
-        {
-            Approved = false;
-        }
     }
 }

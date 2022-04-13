@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArionBank.Domain.Entities
+namespace ArionBank.Application.Models
 {
-    public class Credit
+    public class CreditModel
     {
         public Guid Id { get; set; }
         public decimal Ammount { get; set; }
@@ -17,10 +17,5 @@ namespace ArionBank.Domain.Entities
         public bool Insurance { get; set; }
         public string Purpose { get; set; }
         public bool Approved { get; set; }
-
-        public Credit()
-        {
-            Approved = false;
-        }
     }
 }
