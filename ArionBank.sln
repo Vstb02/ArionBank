@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Persistence", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Application", "src\Core\ArionBank.Application\ArionBank.Application.csproj", "{DD2AC7C7-47FC-49D8-B510-D80CFC0A90AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArionBank.Identity", "src\WebApi\ArionBank.Identity\ArionBank.Identity.csproj", "{D1CB14FA-1E7F-4071-8C94-B28F7E2EC27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArionBank.Identity", "src\WebApi\ArionBank.Identity\ArionBank.Identity.csproj", "{D1CB14FA-1E7F-4071-8C94-B28F7E2EC27F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{88E4FE0E-12E3-46FC-B08E-1C7D6AC94CD0}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
