@@ -14,8 +14,6 @@ namespace ArionBank.Identity.Models
         public string Email { get; set; }
         [Required]
         public string Login { get; set; }
-        [Required]
-        public string Role { get; set; }
         public byte[]? Image { get; set; }
     }
 }
