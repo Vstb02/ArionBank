@@ -38,11 +38,5 @@ namespace ArionBank.Identity.Models
         [Display(Name = "Пароль еще раз")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Роль")]
-        public Roles Role { get; set; }
-
-        public byte[]? Image { get; set; }
     }
 }

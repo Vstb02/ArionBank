@@ -1,4 +1,5 @@
-﻿using ArionBank.Identity.Exceptions;
+﻿using ArionBank.Identity.Enums;
+using ArionBank.Identity.Exceptions;
 using ArionBank.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +84,6 @@ namespace ArionBank.WebApi.Controllers
                 Surname = model.Surname,
                 Patronymic = model.Patronymic,
                 Created = DateTime.Now,
-                Image = model.Image,
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
@@ -95,7 +95,7 @@ namespace ArionBank.WebApi.Controllers
                 return Ok(new RegisterResult { Successful = false, Errors = errors });
             }
 
-            var resultRole = await _userManager.AddToRoleAsync(newUser, model.Role.ToString());
+            var resultRole = await _userManager.AddToRoleAsync(newUser, Roles.Basic.ToString());
 
             if (!resultRole.Succeeded)
             {
