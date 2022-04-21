@@ -1,4 +1,4 @@
-﻿namespace ArionBank.Identity.Enums
+﻿namespace ArionBank.Account.Enums
 {
     public enum Roles
     {
