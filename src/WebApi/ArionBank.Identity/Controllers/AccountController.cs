@@ -124,26 +124,6 @@ namespace ArionBank.WebApi.Controllers
             user.UserName = updateUser.Login;
             user.Email = updateUser.Email;
 
-
-            if (oldRole.FirstOrDefault().ToString() != updateUser.Role.ToString())
-            {
-                var resultRemove = await _userManager.RemoveFromRoleAsync(user, oldRole.FirstOrDefault().ToString());
-                var resultRole = await _userManager.AddToRoleAsync(user, updateUser.Role);
-
-                if (!resultRemove.Succeeded)
-                {
-                    var errors = resultRemove.Errors.Select(x => x.Description);
-
-                    return Ok(new RegisterResult { Successful = false, Errors = errors });
-                }
-                if (!resultRole.Succeeded)
-                {
-                    var errors = resultRole.Errors.Select(x => x.Description);
-
-                    return Ok(new RegisterResult { Successful = false, Errors = errors });
-                }
-            }
-
             user.Updated = DateTime.Now;
 
             var result = await _userManager.UpdateAsync(user);
