@@ -1,4 +1,5 @@
 ﻿@page "/Register"
+@using ArionBank.Account.Components
 @using ArionBank.Account.Models
 @using ArionBank.Account.Service.Account
 @inject IAccountService AuthService
@@ -39,7 +40,7 @@
                             <InputText type="text" Id="name" placeholder="Имя" Class="form-control" @bind-Value="RegisterModel.Name" />
                         </div>
                         <div class="col-6">
-                            <InputText type="text" Id="patronymic" placeholder="Имя" Class="form-control" @bind-Value="RegisterModel.Patronymic" />
+                            <InputText type="text" Id="patronymic" placeholder="Отчество" Class="form-control" @bind-Value="RegisterModel.Patronymic" />
                             <InputText type="password" Id="password" placeholder="Пароль" Class="form-control" @bind-Value="RegisterModel.Password" />
                             <InputText type="password" Id="confirmPassword" placeholder="Пароль" Class="form-control" @bind-Value="RegisterModel.ConfirmPassword" />
                         </div>
