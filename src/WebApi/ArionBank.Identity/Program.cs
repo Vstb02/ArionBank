@@ -31,7 +31,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+        .AddDefaultTokenProviders()
+        .AddErrorDescriber<RussianIdentityErrorDescriber>();
 
 builder.Services.AddScoped<IManagerService, ManagerService>();
 
