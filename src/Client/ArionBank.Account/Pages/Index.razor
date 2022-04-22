@@ -1,0 +1,42 @@
+﻿@page "/"
+@using ArionBank.Account.Components
+@using ArionBank.Account.Service.Account
+@inject IAccountService AuthService
+@inject NavigationManager NavigationManager
+<AuthorizeView>
+    <Authorized>
+        <main class="col-lg-8" id="main">
+                <div class="h1 text-center" style="margin-top: 50px; font-size: 32px;">Оформление вклада под 8% от 10
+                    000₽</div>
+                <div class="select" style="margin-top: 100px;">
+                    <div class="row">
+                        <div class="col-md-1 col-3">
+                            <a class="deposit-a deposit-select" href="#">Вклады</a>
+                        </div>
+                        <div class="col-md-1 col-3">
+                            <a class="deposit-a" href="#">Калькулятор</a>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <span>Введите название счета</span>
+                        <input type="text" class="form-control mInput-2">
+                        <span>На какой срок</span>
+                        <input type="date" class="form-control mInput-2">
+                        <span>Сумма вклада</span>
+                        <input type="text" class="form-control mInput-2">
+                        <div class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Создать счет
+                        </div>
+                    </div>
+                </div>
+            </main>
+    </Authorized>
+    <NotAuthorized>
+        @{
+            NavigationManager.NavigateTo("/login");
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}
