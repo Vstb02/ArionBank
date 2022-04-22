@@ -1,8 +1,10 @@
 ﻿@page "/Login";
+@using ArionBank.Account.Components
 @using ArionBank.Account.Models
 @using ArionBank.Account.Service.Account
 @inject IAccountService AuthService
 @inject NavigationManager NavigationManager
+@layout EmptyLayout
 
 @if (ShowErrors)
 {
