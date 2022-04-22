@@ -5,38 +5,34 @@ namespace ArionBank.Account.Models
 {
     public class RegisterModel
     {
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 2)]
         [Display(Name = "Имя")]
         public string Name { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 2)]
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 2)]
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Почта")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 4)]
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 5)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль еще раз")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Пароль и пароль подтверждения не совпадают.")]
         public string ConfirmPassword { get; set; }
     }
 }

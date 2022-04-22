@@ -31,16 +31,17 @@ namespace ArionBank.WebApi.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginModel login)
         {
-            var result = await _signInManager.PasswordSignInAsync(login.Login, login.Password, false, false);
-
-            if (!result.Succeeded) return BadRequest(new LoginResult { Successful = false, Error = "Username and password are invalid." });
-
             var user = await _userManager.FindByNameAsync(login.Login);
 
-            if(user == null)
+            if (user == null)
             {
-                return BadRequest(new LoginResult { Successful = false, Error = "Username not found." });
+                return BadRequest(new LoginResult { Successful = false, Error = $"Пользователь с именем { login.Login } не найден" });
             }
+
+            var result = await _signInManager.PasswordSignInAsync(login.Login, login.Password, false, false);
+
+            if (!result.Succeeded) return BadRequest(new LoginResult { Successful = false, Error = "Неверное имя пользователя или пароль" });
+
 
             user.LastLogin = DateTime.Now;
 
@@ -50,7 +51,7 @@ namespace ArionBank.WebApi.Controllers
 
             if(role == null)
             {
-                return BadRequest(new LoginResult { Successful = false, Error = "Role not found." });
+                return BadRequest(new LoginResult { Successful = false, Error = "Роль не найдена" });
             }
 
             var claims = new[]
@@ -79,7 +80,6 @@ namespace ArionBank.WebApi.Controllers
             var newUser = new ApplicationUser
             {
                 UserName = model.Login,
-                Email = model.Email,
                 Name = model.Name,
                 Surname = model.Surname,
                 Patronymic = model.Patronymic,
@@ -116,17 +116,14 @@ namespace ArionBank.WebApi.Controllers
                 throw new NotFoundException(name);
             }
 
-            var oldRole = await _userManager.GetRolesAsync(user);
-
             user.Name = updateUser.Name;
             user.Surname = updateUser.Surname;
             user.Patronymic = updateUser.Patronymic;
             user.UserName = updateUser.Login;
-            user.Email = updateUser.Email;
 
             user.Updated = DateTime.Now;
 
-            var result = await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
 
             return Ok(new UpdateResult { Successful = true });
         }

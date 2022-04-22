@@ -11,8 +11,6 @@ namespace ArionBank.Account.Models
         [Required]
         public string Patronymic { get; set; }
         [Required]
-        public string Email { get; set; }
-        [Required]
         public string Login { get; set; }
         public byte[]? Image { get; set; }
     }
