@@ -8,7 +8,7 @@ namespace ArionBank.Account.Models
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
-        [Required(ErrorMessage = "{0} обязательно должно быть заполнено"]
+        [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
