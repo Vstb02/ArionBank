@@ -392,7 +392,8 @@ input {
 
 .panel {
     width: min-content;
-    height: 500px;
+    height: max-content;
+    padding-bottom: 40px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -486,7 +487,27 @@ input {
     margin-bottom: 10px;
 }
 
+.panel input[type='password'] {
+    background-color: #22232a;
+    -webkit-border-radius: 45px;
+    -moz-border-radius: 45px;
+    border-radius: 45px;
+    font-size: 15px;
+    height: 45px;
+    border: none;
+    padding-left: 15px;
+    width: -webkit-calc(100% - 15px);
+    width: -moz-calc(100% - 15px);
+    width: calc(100% - 15px);
+    margin-bottom: 10px;
+}
+
 .panel input[type='text'][placeholder] {
+    color: #656d79;
+    font-size: 15px;
+    font-weight: 500;
+}
+.panel input[type='password'][placeholder] {
     color: #656d79;
     font-size: 15px;
     font-weight: 500;

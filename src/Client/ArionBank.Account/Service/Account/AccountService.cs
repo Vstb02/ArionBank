@@ -27,6 +27,7 @@ namespace ArionBank.Account.Service.Account
             var result = await _httpClient.PostAsJsonAsync("api/account/register", registerModel);
 
             var resultRegister = await result.Content.ReadFromJsonAsync<Result>();
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(registerModel.Login);
 
             return resultRegister;
         }

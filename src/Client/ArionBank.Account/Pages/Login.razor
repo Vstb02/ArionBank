@@ -1,11 +1,72 @@
 ﻿@page "/Login";
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Account
+@inject IAccountService AuthService
+@inject NavigationManager NavigationManager
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка аутентификации</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
 <div class="back">
 	<div class="panel col-lg-4 col-md-8 col-11">
 		<div class="state"><br><img src="img/logo.png" alt=""><br><span>Авторизация</span></div>
-			<div class="form">
-				<input placeholder='Почта' type="text">
-				<input placeholder='Пароль' type="text">
-				<div class="login">Войти</div>
-		</div>
+        <div class="form">
+            <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+            <div style="color: red; text-align: left">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            </div>
+
+            <div class="form-group">
+                <InputText type="text" Id="login" placeholder="Логин" Class="form-control" @bind-Value="loginModel.Login" />
+            </div>
+            <div class="form-group">
+                <InputText type="password" Id="password" placeholder="Пароль" Class="form-control" @bind-Value="loginModel.Password" />
+            </div>
+            <button style="border: none; outline: none;" class="login">Войти</button>
+        </EditForm>
+	    </div>
 	</div>
 </div>
+
+@code {
+
+    private LoginModel loginModel = new LoginModel();
+    private bool ShowErrors;
+    private string Error = "";
+
+    private async Task HandleLogin()
+    {
+        ShowErrors = false;
+
+        var result = await AuthService.Login(loginModel);
+
+
+        if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Error = result.Error;
+            ShowErrors = true;
+        }
+    }
+
+}

@@ -103,7 +103,6 @@ namespace ArionBank.Identity.Services
                 Surname = user.Surname,
                 Patronymic = user.Patronymic,
                 Login = user.UserName,
-                Email = user.Email,
                 Role = role[0].ToString() ?? "None",
                 Avatar = user.Image,
             };
