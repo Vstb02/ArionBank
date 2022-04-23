@@ -1,6 +1,7 @@
 ﻿@using ArionBank.Account.Models
 @using ArionBank.Account.Service.Manager
-@inject IManagerService _managerService;
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IManagerService _managerService
 
 <nav id="navbar"  class="navbar navbar-expand-lg navbar-light bg-light" style="justify-content: space-between;">
         <div id="navbar-brand" class="navbar-barand">
@@ -13,9 +14,9 @@
                 <a href="21312">
                     <div class="avatar">
                         @{
-                        if(avatar.Image != null)
+                        if(avatar.Avatar != null)
                         {
-                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(avatar.Image))" height="35" loading="lazy" />
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(avatar.Avatar))" height="35" loading="lazy" />
                         }
                         else
                         {
@@ -45,6 +46,7 @@
 
 @code {
     public string Name = string.Empty;
+    private HubConnection hubConnection;
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -58,5 +60,6 @@
 
         Name = user.Identity.Name;
         avatar = await _managerService.GetAvatar(Name);
+    
     }
 }

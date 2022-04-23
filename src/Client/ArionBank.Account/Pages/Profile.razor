@@ -1,0 +1,100 @@
+﻿@page "/Profile"
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Manager
+@inject IManagerService _managerService;
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка аутентификации</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
+<main class="col-lg-8" style="margin-top: 150px;" id="main">
+       <div class="row">
+            <div class="col-md-5 text-center">
+                <h2 class="header-profile">Пользователь</h2>
+            <div>
+                @if(userModel.Avatar == null)
+                {
+                    <img style="width: 200px; height: 200px;" src="img/maxresdefault-36-870x400.jpg" class="rounded-circle" alt="">
+                }
+                else
+                {
+                    <img  style="width: 200px; height: 200px;" class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(userModel.Avatar))"loading="lazy" />
+                }
+           </div>
+               <h3 class="profile-name">@userModel.Name @userModel.Patronymic @userModel.Surname</h3>
+               <h5 class="profile-name"></h5>
+           </div>
+           <div class="col-md-6">
+                 <h2 class="header-profile text-center">Контактные данные</h2>
+                 <h3 class="profile-header-data">Основной номер телефона</h3>
+                 @if(userModel.Phone != null)
+                 {
+                    <h3 class="profile-data">@userModel.Phone</h3>
+                 }
+                 else
+                 {
+                    <h3 class="profile-data">Добавьте номер телефона</h3>
+                 }
+                 <h3 class="profile-header-data">Email</h3>
+                 @if(userModel.Email != null)
+                 {
+                    <h3 class="profile-data">@userModel.Email</h3>
+                 }
+                 else
+                 {
+                    <h3 class="profile-data">Добавьте адрес электронной почты</h3>
+                 }
+                 <h3 class="profile-header-data">Адрес проживания</h3>
+                 @if(userModel.Address != null)
+                 {
+                    <h3 class="profile-data">@userModel.Address</h3>
+                 }
+                 else
+                 {
+                    <h3 class="profile-data">Добавьте адрес проживания</h3>
+                 }
+                 <form action="ChangeProfile">
+                    <button style="background-color:blueviolet; color: white; border: 0px; margin-top: 20px;" class="btn btn-primary">Именить данные</button>
+                </form>
+            </div>
+    </div>
+</main>
+
+@code{
+    public string Name = string.Empty;
+    public string Error = string.Empty;
+    public bool ShowErrors = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private UserModel userModel = new UserModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        Name = user.Identity.Name;
+        if(Name == null)
+        {
+            ShowErrors = true;
+            Error = "Произошла непредвиденная ошибка";
+        }
+        userModel = await _managerService.GetUserByName(Name);
+    }
+}

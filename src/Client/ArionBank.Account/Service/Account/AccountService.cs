@@ -27,7 +27,6 @@ namespace ArionBank.Account.Service.Account
             var result = await _httpClient.PostAsJsonAsync("api/account/register", registerModel);
 
             var resultRegister = await result.Content.ReadFromJsonAsync<Result>();
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(registerModel.Login);
 
             return resultRegister;
         }
@@ -57,7 +56,7 @@ namespace ArionBank.Account.Service.Account
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
-        public async Task<Result> UpdateUser(UpdateUser updateUser, string name)
+        public async Task<Result> UpdateUser(UpdateModel updateUser, string name)
         {
             var result = await _httpClient.PutAsJsonAsync($"api/account/updateUser/{name}", updateUser);
 

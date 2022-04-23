@@ -1,0 +1,96 @@
+﻿@page "/ChangeProfile"
+
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Account
+@using ArionBank.Account.Service.Manager
+@inject IManagerService _managerService
+@inject IAccountService _authService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+
+<main class="col-lg-8" style="margin-top: 20px;" id="main">
+    <EditForm Model="updateModel" OnValidSubmit="HandleUpdate">
+        <div style="color: red; text-align: left">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+        </div>
+
+        <span>Имя</span>
+        <InputText type="text" Id="name" placeholder="Имя" Class="form-control mInput-2" @bind-Value="updateModel.Name" />
+        <span>Фамилия</span>
+        <InputText type="text" Id="surname" placeholder="Фамилия" Class="form-control mInput-2" @bind-Value="updateModel.Surname" />
+        <span>Отчество</span>
+        <InputText type="text" Id="patronymic" placeholder="Отчество" Class="form-control mInput-2" @bind-Value="updateModel.Patronymic" />
+        <span>Электронная почта</span>
+        <InputText type="text" Id="email" placeholder="Электронная почта" Class="form-control mInput-2" @bind-Value="updateModel.Email" />
+        <span>Номер телефона</span>
+        <InputText type="text" Id="phone" placeholder="Номер телефона" Class="form-control mInput-2" @bind-Value="updateModel.Phone" />
+        <span>Адрес проживания</span>
+        <InputText type="text" Id="address" placeholder="Адрес проживания" Class="form-control mInput-2" @bind-Value="updateModel.Address" />
+        <span>Фото</span>
+        <InputFile OnChange="@SingleUpload" accept=".jpg" class="form-control gray-color mInput-2" id="formFile" />
+        <button class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Изменить</button>
+
+        </EditForm>
+</main>
+
+
+@code {
+    private IEnumerable<string> Errors;
+    private bool ShowErrors;
+    private UpdateModel updateModel = new UpdateModel();
+    private UserModel userModel = new UserModel();
+    private string Name = string.Empty;
+    private byte[] bytes = null;
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        Name = user.Identity.Name;
+        userModel = await _managerService.GetUserByName(Name);
+
+        updateModel.Name = userModel.Name;
+        updateModel.Surname = userModel.Surname;
+        updateModel.Patronymic = userModel.Patronymic;
+        updateModel.Address = userModel.Address;
+        updateModel.Phone = userModel.Phone;
+        updateModel.Email = userModel.Email;
+    }
+
+    private async Task HandleUpdate()
+    {
+        var result = await _authService.UpdateUser(updateModel, Name);
+
+        @if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/Profile");
+            await JS.InvokeAsync<bool>("document.location.reload",true );
+        }
+        else
+        {
+            Errors = result.Errors;
+            ShowErrors = true;
+        }
+    }
+
+    private async Task SingleUpload(InputFileChangeEventArgs e)
+    {
+        MemoryStream ms = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(ms);
+        bytes = ms.ToArray(); 
+
+        if(bytes == null)
+        {
+            updateModel.Avatar = userModel.Avatar;   
+        }
+        else
+        {
+            updateModel.Avatar = bytes;   
+        }
+    }
+}

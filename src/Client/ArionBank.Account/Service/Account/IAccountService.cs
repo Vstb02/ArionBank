@@ -7,6 +7,6 @@ namespace ArionBank.Account.Service.Account
         Task<LoginResult> Login(LoginModel loginModel);
         Task<Result> Register(RegisterModel registerModel);
         Task Logout();
-        Task<Result> UpdateUser(UpdateUser updateUser, string name);
+        Task<Result> UpdateUser(UpdateModel updateUser, string name);
     }
 }

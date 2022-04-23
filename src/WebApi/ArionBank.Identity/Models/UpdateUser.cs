@@ -10,8 +10,9 @@ namespace ArionBank.Identity.Models
         public string Surname { get; set; }
         [Required]
         public string Patronymic { get; set; }
-        [Required]
-        public string Login { get; set; }
-        public byte[]? Image { get; set; }
+        public byte[]? Avatar { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
     }
 }

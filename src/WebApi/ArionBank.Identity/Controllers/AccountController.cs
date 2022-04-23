@@ -119,7 +119,10 @@ namespace ArionBank.WebApi.Controllers
             user.Name = updateUser.Name;
             user.Surname = updateUser.Surname;
             user.Patronymic = updateUser.Patronymic;
-            user.UserName = updateUser.Login;
+            user.Email = updateUser.Email;
+            user.Address = updateUser.Address;
+            user.PhoneNumber = updateUser.Phone;
+            user.Avatar = updateUser.Avatar;
 
             user.Updated = DateTime.Now;
 

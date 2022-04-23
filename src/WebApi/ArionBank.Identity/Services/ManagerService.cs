@@ -79,7 +79,7 @@ namespace ArionBank.Identity.Services
 
             AvatarModel avatarModel = new AvatarModel()
             {
-                Image = user.Image,
+                Avatar = user.Avatar,
                 Name = user.Name,
                 Surname = user.Surname
             };
@@ -104,7 +104,10 @@ namespace ArionBank.Identity.Services
                 Patronymic = user.Patronymic,
                 Login = user.UserName,
                 Role = role[0].ToString() ?? "None",
-                Avatar = user.Image,
+                Avatar = user.Avatar,
+                Address = user.Address,
+                Phone = user.PhoneNumber,
+                Email = user.Email,
             };
 
             return userModel;

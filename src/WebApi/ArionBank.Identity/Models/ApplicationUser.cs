@@ -10,6 +10,8 @@ namespace ArionBank.Identity.Models
         public DateTime LastLogin { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
-        public byte[]? Image { get; set; }
+        public byte[]? Avatar { get; set; }
+        public string? Email { get; set; }
+        public string? Address { get; set; }
     }
 }
