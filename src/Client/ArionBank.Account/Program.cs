@@ -1,6 +1,8 @@
 using ArionBank.Account;
+using ArionBank.Account.HttpClients;
 using ArionBank.Account.Hubs;
 using ArionBank.Account.Service.Account;
+using ArionBank.Account.Service.Card;
 using ArionBank.Account.Service.Manager;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
@@ -18,6 +20,11 @@ builder.Services.AddScoped(sp =>
         BaseAddress = new Uri(builder.Configuration["BaseAddress"])
     });
 
+builder.Services.AddHttpClient<MainService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["MainAddress"]);
+    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+});
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -26,6 +33,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
+builder.Services.AddScoped<ICardService, CardService>();
 
 builder.Services.AddResponseCompression(opts =>
 {
