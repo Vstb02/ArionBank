@@ -57,6 +57,7 @@ namespace ArionBank.WebApi.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, login.Login),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Role, role.FirstOrDefault())
             };
 

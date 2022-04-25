@@ -43,6 +43,7 @@ namespace ArionBank.Account.Service.Account
             }
 
             await _localStorage.SetItemAsync("authToken", loginResult.Token);
+
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Login);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
 

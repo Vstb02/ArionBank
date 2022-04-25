@@ -18,8 +18,15 @@ namespace ArionBank.Application.Services
         {
             _context = context;
         }
-        public async Task<Guid> CreateCard(CardCreateModel request)
+        public async Task<CardResult> CreateCard(CardCreateModel request)
         {
+            var result = new CardResult();
+
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+                result.Errors.Append("Нет данных");
+            }
             DateTime now = DateTime.Now;
             var card = new Card()
             {
@@ -40,7 +47,7 @@ namespace ArionBank.Application.Services
             await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();
 
-            return card.Id;
+            return result;
         }
 
         public async Task<CardModel> GetCardById(Guid id)

@@ -24,7 +24,17 @@ namespace ArionBank.Main.Controllers
         [HttpPost("CreateCard")]
         public async Task<IActionResult> CreateCard(CardCreateModel cardModel)
         {
-            return Ok(await _cardService.CreateCard(cardModel));
+            var result = await _cardService.CreateCard(cardModel);
+
+            if (result.Errors == null)
+            {
+                result.Successful = true;
+            }
+            else
+            {
+                BadRequest(result.Errors);
+            }
+            return Ok(result);
         }
     }
 }

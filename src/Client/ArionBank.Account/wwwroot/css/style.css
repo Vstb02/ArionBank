@@ -306,6 +306,15 @@
     cursor: pointer;
 }
 
+#mInput {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 0px;
+    border: 0px;
+    border-bottom: 1px solid #6629B3;
+    cursor: pointer;
+}
+
 .header-credit {
     font-size: 18px;
 }
