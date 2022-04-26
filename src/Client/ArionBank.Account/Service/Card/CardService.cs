@@ -27,5 +27,11 @@ namespace ArionBank.Account.Service.Card
 
             return card;
         }
+        public async Task<CardListModel> GetCardList(Guid userId)
+        {
+            var cardList = await _httpClient.Client.GetFromJsonAsync<CardListModel>($"api/card/GetAllByUserId/{userId}");
+
+            return cardList;
+        }
     }
 }
