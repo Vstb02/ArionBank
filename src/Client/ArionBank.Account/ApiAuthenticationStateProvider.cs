@@ -10,7 +10,6 @@ namespace ArionBank.Account
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
-
         public ApiAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
@@ -20,17 +19,12 @@ namespace ArionBank.Account
         {
             var savedToken = await _localStorage.GetItemAsync<string>("authToken");
 
-            if (string.IsNullOrWhiteSpace(savedToken))
-            {
-                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-            }
-
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
 
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
-        public void MarkUserAsAuthenticated(string name)
+        public async Task MarkUserAsAuthenticated(string name)
         {
             var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, name) }, "apiauth"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
@@ -52,6 +46,8 @@ namespace ArionBank.Account
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
+
+            keyValuePairs.TryGetValue(ClaimTypes.NameIdentifier, out object id);
 
             if (roles != null)
             {

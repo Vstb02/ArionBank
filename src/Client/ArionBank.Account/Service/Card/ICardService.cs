@@ -6,5 +6,6 @@ namespace ArionBank.Account.Service.Card
     public interface ICardService
     {
         Task<Result> CreateCard(CardCreateModel cardModel);
+        Task<CardModel> GetCard(Guid userId);
     }
 }

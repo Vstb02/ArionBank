@@ -72,6 +72,35 @@ namespace ArionBank.Application.Services
             return model;
         }
 
+        public async Task<CardModel> GetCard(Guid userId)
+        {
+            var card = (await _context.Cards
+                .Where(x => x.UserId == userId)
+                .Where(x => x.Selected == true)
+                .ToListAsync())
+                .FirstOrDefault();
+
+            if(card == null)
+            {
+                card = await _context.Cards.FirstOrDefaultAsync(x => x.UserId == userId);
+            }
+            CardModel model = new CardModel();
+            if (card != null)
+            {
+                model.Name = card.Name;
+                model.Surname = card.Surname;
+                model.Bonus = card.Bonus;
+                model.PaymentSystem = card.PaymentSystem;
+                model.Actived = card.Actived;
+                model.Balance = card.Balance;
+                model.Status = card.Status;
+                model.Type = card.Type;
+                model.Number = card.Number;
+            }
+
+            return model;
+        }
+
         public async Task<CardListModel> GetAllByUserId(Guid id)
         {
             var cardsList = new CardListModel();
@@ -96,22 +125,23 @@ namespace ArionBank.Application.Services
         public string GenereateNumberCard(PaymentSystems ps)
         {
             Random random = new Random();
-            int num1 = random.Next(10000000, 99999999);
+            int num1 = random.Next(1000, 9999);
             int num2 = random.Next(1000, 9999);
-            int num3 = 0;
+            int num3 = random.Next(1000, 9999);
+            int num4 = 0;
 
             switch (ps)
             {
                 case PaymentSystems.MasterCard:
-                    num3 = 4325;
+                    num4 = 4325;
                     break;
                 case PaymentSystems.Visa:
-                    num3 = 2312;
+                    num4 = 2312;
                     break;
             }
-   
 
-            return num3.ToString() + num1.ToString() + num2.ToString();
+
+            return num4.ToString() + " " + num3.ToString() + " " + num1.ToString() + " " + num2.ToString();
         }
     }
 }

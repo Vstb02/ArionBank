@@ -1,6 +1,30 @@
-﻿@inherits LayoutComponentBase
+﻿@using ArionBank.Account.Service.Card
+@using ArionBank.Application.Models
+@using System.Security.Claims
+@inherits LayoutComponentBase
+@inject ICardService _cardService
+@inject IJSRuntime JS
 
 <PageTitle>ArionBank.Account</PageTitle>
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Список ошибок</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
 
 <AuthorizeView>
     <Authorized>
@@ -27,9 +51,11 @@
                                 }
                             </a>
                         </div>
+                        @if(card != null)
+                        {
                         <div class="panel-collapse collapse show" id="collapseCard">
                             <div class="row py-2 card-m">
-                                <span class="number" style="display: @block">1234  5678  9012  3456</span>
+                                <span class="number" style="display: @block">@card.Number</span>
                                 <img src="img/Карта.svg" alt="">
                             </div>
                             <div class="row py-2 align-items-center">
@@ -65,7 +91,7 @@
                                             </svg>
                                         </div>
                                     </div>
-                                    <span class="d-block value">100 561, 80₽</span>
+                                    <span class="d-block value">@card.Balance</span>
                                 </div>
                             </div>
                             <div class="row py-3 align-items-center">
@@ -101,7 +127,7 @@
                                             </svg>
                                         </div>
                                     </div>
-                                    <span class="d-block value">10</span>
+                                    <span class="d-block value">@card.Bonus</span>
                                 </div>
                             </div>
                             <div class="row py-3">
@@ -115,13 +141,14 @@
                                     <span class="d-block card-h4">Активна</span>
                                 </div>
                                 <div class="col-5 text-end d-block">
-                                    <span class="d-block card-h5">Активна</span>
-                                    <span class="d-block card-h5">MasterCard</span>
-                                    <span class="d-block card-h5">Дебетовая</span>
-                                    <span class="d-block card-h5">23.04.2024</span>
+                                    <span class="d-block card-h5">@card.Status</span>
+                                    <span class="d-block card-h5">@card.PaymentSystem</span>
+                                    <span class="d-block card-h5">@card.Type</span>
+                                    <span class="d-block card-h5">@card.Actived</span>
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -134,8 +161,13 @@
     </NotAuthorized>
 </AuthorizeView>
 
-
 @code{
+    private CardModel card = new CardModel();
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private IEnumerable<string> Error;
+    private bool ShowErrors;
+
     private string block = "block";
     void Hide()
     {
@@ -145,6 +177,46 @@
         }
         else{
             block = "block";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if(user.Identity.IsAuthenticated)
+        {
+            string id = String.Empty;
+            try
+            {
+                var claimId = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).ToList();
+                if(claimId.Count > 0)
+                {
+                    id = claimId.FirstOrDefault().Value;
+                }
+                else
+                {
+                     await JS.InvokeAsync<bool>("document.location.reload", true);
+                }
+            }
+            catch
+            {
+                await JS.InvokeAsync<bool>("document.location.reload", true);
+            }
+            if(id != string.Empty)
+            {
+                Guid userId = Guid.Empty;
+                try
+                {
+                    userId = Guid.Parse(id);   
+                }
+                catch{
+                    Error.Append("Произошла непредвиденная ошибка");
+                    ShowErrors = true;
+                }
+                card = await _cardService.GetCard(userId);    
+            }  
         }
     }
 }

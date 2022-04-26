@@ -32,9 +32,9 @@
    <div class="h1 text-center" style="margin-top: 50px; font-size: 32px;">Оформление карты</div>
    <div class="select" style="margin-top: 120px;">
         <span>Имя</span>
-        <input @bind="card.Name" id="mInput" type="text" class="form-control mInput-2">
+        <input @bind="card.Name" name="Name" id="mInput" type="text" class="form-control mInput-2">
         <span>Фамилия</span>
-        <input @bind="card.Surname" id="mInput" type="text" class="form-control mInput-2">
+        <input @bind="card.Surname" name="Surname" id="mInput" type="text" class="form-control mInput-2">
         <span class="header-credit">Тип карты</span>
         <select @bind="card.Type" id="mInput" class="form-select mInput" aria-label="Default select example">
             <option value="@TypesCard.Credit">Кредитная</option>

@@ -12,5 +12,6 @@ namespace ArionBank.Application.Common.Interfaces
         Task<CardResult> CreateCard(CardCreateModel request);
         Task<CardModel> GetCardById(Guid id);
         Task<CardListModel> GetAllByUserId(Guid id);
+        Task<CardModel> GetCard(Guid id);
     }
 }

@@ -21,6 +21,11 @@ namespace ArionBank.Main.Controllers
         {
             return Ok(await _cardService.GetAllByUserId(id));
         }
+        [HttpGet("GetCard/{id}")]
+        public async Task<IActionResult> GetCard(Guid id)
+        {
+            return Ok(await _cardService.GetCard(id));
+        }
         [HttpPost("CreateCard")]
         public async Task<IActionResult> CreateCard(CardCreateModel cardModel)
         {
