@@ -108,6 +108,7 @@ namespace ArionBank.Application.Services
             cardsList.Cards = (from Item in cards
                                select new CardModel
                                {
+                                   Id = Item.Id,
                                    Name = Item.Name,
                                    Surname = Item.Surname,
                                    Bonus = Item.Bonus,  
