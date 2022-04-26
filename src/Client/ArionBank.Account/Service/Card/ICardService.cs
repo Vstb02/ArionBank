@@ -7,6 +7,6 @@ namespace ArionBank.Account.Service.Card
     {
         Task<Result> CreateCard(CardCreateModel cardModel);
         Task<CardModel> GetCard(Guid userId);
-        Task<CardListModel> GetCardList(Guid userId)
+        Task<CardListModel> GetCardList(Guid userId);
     }
 }
