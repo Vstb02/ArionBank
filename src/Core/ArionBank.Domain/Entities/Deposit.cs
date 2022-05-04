@@ -20,5 +20,6 @@ namespace ArionBank.Domain.Entities
         public Guid CardId { get; set; }
         public DateTime DateTime { get; set; }
         public DateTime LastMoth { get; set; }
+        public Guid UserId { get; set; }
     }
 }

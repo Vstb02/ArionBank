@@ -19,5 +19,11 @@ namespace ArionBank.Account.Service.Deposit
 
             return depositResult;
         }
+        public async Task<DepositModel> DepositByUserId(Guid UserId)
+        {
+            var deposit = await _httpClient.Client.GetFromJsonAsync<DepositModel>($"api/deposit/DepositByUserId/{UserId}");
+
+            return deposit;
+        }
     }
 }

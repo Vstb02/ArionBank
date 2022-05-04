@@ -96,7 +96,8 @@
         try
         {
             id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            UserId = Guid.Parse(id);   
+            UserId = Guid.Parse(id);
+            depositModel.UserId = UserId;
         }
         catch{
             Error.Append("Произошла непредвиденная ошибка");

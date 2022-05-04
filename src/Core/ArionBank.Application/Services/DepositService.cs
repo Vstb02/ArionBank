@@ -69,7 +69,8 @@ namespace ArionBank.Application.Services
                 CardId = card.Id,
                 DateTime = model.Date,
                 LastMoth = DateTime.Now,
-                Number = GenerateNumber()
+                Number = GenerateNumber(),
+                UserId = model.UserId
             };
 
             await _context.Deposits.AddAsync(deposit);
@@ -123,7 +124,7 @@ namespace ArionBank.Application.Services
 
         public async Task<DepositModel> DepositByUserId(Guid UserId)
         {
-            var deposit = (await _context.Deposits.Where(x => x.Id == UserId).ToListAsync()).FirstOrDefault();
+            var deposit = (await _context.Deposits.Where(x => x.UserId == UserId).ToListAsync()).FirstOrDefault();
 
             DepositModel model = new DepositModel
             {

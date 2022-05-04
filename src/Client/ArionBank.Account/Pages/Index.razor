@@ -1,8 +1,12 @@
 ﻿@page "/"
 @using ArionBank.Account.Components
 @using ArionBank.Account.Service.Account
+@using ArionBank.Account.Service.Deposit
+@using ArionBank.Application.Models
+@using System.Security.Claims
 @inject IAccountService AuthService
 @inject NavigationManager NavigationManager
+@inject IDepositService _depositService
 <AuthorizeView>
     <Authorized>
         <main class="col-lg-8" id="main">
@@ -34,7 +38,7 @@
                                 <span class="invest-h1">Сберегательный счет</span>
                                 <div class="d-flex justify-content-between">
                                     <span class="invest-h2">№ счета</span>
-                                    <span class="invest-h2 text-end">77122303</span>
+                                    <span class="invest-h2 text-end">@deposit.Number</span>
                                 </div>
                             </div>
                         </div>
@@ -42,13 +46,13 @@
                             <div class="col-12">
                                 <div class="d-flex justify-content-between">
                                     <span class="card-h4 ">Процентная ставка</span>
-                                    <span class="card-h4 text-end">5,2%</span>
+                                    <span class="card-h4 text-end">@deposit.Procent</span>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="d-flex justify-content-between">
                                     <span class="card-h5 p-0 m-0">Баланс</span>
-                                    <span class="card-h5 p-0 m-0 text-end">102 563, 21₽</span>
+                                    <span class="card-h5 p-0 m-0 text-end">@deposit.Balance</span>
                                 </div>
                             </div>
                         </div>
@@ -94,5 +98,12 @@
 </AuthorizeView>
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    DepositModel deposit = new DepositModel();
+    private IEnumerable<string> Error;
+    private bool ShowErrors;
+    private Guid UserId;
+
 
 }
