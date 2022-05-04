@@ -98,12 +98,28 @@
 </AuthorizeView>
 
 @code {
+    DepositModel deposit = new DepositModel();
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    DepositModel deposit = new DepositModel();
     private IEnumerable<string> Error;
     private bool ShowErrors;
     private Guid UserId;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
 
+        string id = string.Empty;
+        try
+        {
+            id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            UserId = Guid.Parse(id);
+            deposit = await _depositService.DepositByUserId(UserId);
+        }
+        catch{
+            Error.Append("Произошла непредвиденная ошибка");
+            ShowErrors = true;
+        }
+    }
 }

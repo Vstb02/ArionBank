@@ -126,6 +126,11 @@ namespace ArionBank.Application.Services
         {
             var deposit = (await _context.Deposits.Where(x => x.UserId == UserId).ToListAsync()).FirstOrDefault();
 
+            if(deposit == null)
+            {
+                return null;
+            }
+
             DepositModel model = new DepositModel
             {
                 Balance = deposit.Balance,
