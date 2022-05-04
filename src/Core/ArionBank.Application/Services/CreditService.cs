@@ -26,7 +26,6 @@ namespace ArionBank.Application.Services
             if(card == null)
             {
                 creditResult.Errors.Append("Счет не найден");
-                throw new Exception($"Card with id { model.CardId } not found");
             }
 
             var credit = new Credit()

@@ -34,22 +34,40 @@ namespace ArionBank.Application.Services
 
         public async Task<DepositResult> CreateDeposit(CreateDepositModel model)
         {
-            var card = await _context.Deposits.FindAsync(model.CardId);
+            var card = await _context.Cards.FindAsync(model.CardId);
 
             DepositResult result = new DepositResult();
 
             if(card == null)
             {
                 result.Errors.Append("Счет не найден");
-                throw new Exception($"Card with id {model.CardId} not found");
+                return result;
             }
+            if(model.Date < DateTime.Now)
+            {
+                result.Errors.Append("Неправильная дата");
+                return result;
+            }
+            if (model.Ammount < 0)
+            {
+                result.Errors.Append("Сумма не может быть отрицательной");
+                return result;
+            }
+            if (card.Balance < model.Ammount)
+            {
+                result.Errors.Append("Недостаточно средств");
+                return result;
+            }
+
+            card.Balance -= model.Ammount;
+
             Deposit deposit = new Deposit()
             {
                 Id = Guid.NewGuid(),
                 Balance = model.Ammount,
                 Procent = 10,
                 CardId = card.Id,
-                DateTime = DateTime.Now,
+                DateTime = model.Date,
                 LastMoth = DateTime.Now,
                 Number = GenerateNumber()
             };
@@ -62,11 +80,19 @@ namespace ArionBank.Application.Services
 
         public int GenerateNumber()
         {
-            var lastDepost = _context.Deposits.Last();
             int number = 0;
-            if(lastDepost != null) 
+            try
             {
-                number = lastDepost.Number += 1;
+                var deposits = _context.Deposits.OrderBy(x => x.Number);
+                var lastDepost = deposits.Last();
+                if (lastDepost != null)
+                {
+                    number = lastDepost.Number += 1;
+                }
+            }
+            catch
+            {
+                number = 0;
             }
 
             return number;
@@ -85,6 +111,7 @@ namespace ArionBank.Application.Services
             DateTime now = DateTime.Now;
             if(deposit.LastMoth.Month != now.Month)
             {
+                int count = now.Month - deposit.LastMoth.Month + now.Year - deposit.LastMoth.Year;
                 deposit.LastMoth = DateTime.Now;
                 model.Balance += model.Balance * deposit.Procent / 100;
             }
@@ -94,18 +121,24 @@ namespace ArionBank.Application.Services
             return model;
         }
 
-        public async Task<DepositListModel> DepositByUserId(Guid UserId)
+        public async Task<DepositModel> DepositByUserId(Guid UserId)
         {
-            var deposit = await _context.Deposits.Where(x => x.Id == UserId).ToListAsync();
-            DepositListModel model = new DepositListModel();
+            var deposit = (await _context.Deposits.Where(x => x.Id == UserId).ToListAsync()).FirstOrDefault();
 
-            model.List = (from Item in deposit
-                          select new DepositModel()
-                          {
-                              Balance = Item.Balance,
-                              Number = Item.Number,
-                              Procent = Item.Procent
-                          }).ToList();
+            DepositModel model = new DepositModel
+            {
+                Balance = deposit.Balance,
+                Number = deposit.Number,
+                Procent = deposit.Procent
+            };
+            DateTime now = DateTime.Now;
+            if (deposit.LastMoth.Month != now.Month)
+            {
+                int count = now.Month - deposit.LastMoth.Month + now.Year - deposit.LastMoth.Year;
+                deposit.LastMoth = DateTime.Now;
+                model.Balance += model.Balance * deposit.Procent / 100;
+            }
+
 
             await _context.SaveChangesAsync();
 

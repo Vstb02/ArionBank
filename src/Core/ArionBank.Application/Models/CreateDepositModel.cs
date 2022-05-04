@@ -8,9 +8,15 @@ namespace ArionBank.Application.Models
 {
     public class CreateDepositModel
     {
+        public Guid Id { get; set; }
         public decimal Ammount { get; set; }
         public Guid CardId { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Created { get; set; }
+
+        public CreateDepositModel()
+        {
+            Ammount = 0;
+            Date = DateTime.Now;
+        }
     }
 }

@@ -3,6 +3,7 @@ using ArionBank.Account.HttpClients;
 using ArionBank.Account.Hubs;
 using ArionBank.Account.Service.Account;
 using ArionBank.Account.Service.Card;
+using ArionBank.Account.Service.Deposit;
 using ArionBank.Account.Service.Manager;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStatePr
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IDepositService, DepositService>();
 
 builder.Services.AddResponseCompression(opts =>
 {

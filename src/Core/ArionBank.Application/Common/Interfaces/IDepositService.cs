@@ -11,7 +11,7 @@ namespace ArionBank.Application.Common.Interfaces
     {
         Task<DepositResult> CreateDeposit(CreateDepositModel model);
         Task<DepositListModel> AllDeposit();
-        Task<DepositListModel> DepositByUserId(Guid UserId);
+        Task<DepositModel> DepositByUserId(Guid UserId);
         Task<DepositModel> DepositById(Guid DepositId);
     }
 }

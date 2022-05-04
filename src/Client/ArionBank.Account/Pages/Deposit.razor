@@ -1,0 +1,108 @@
+﻿@page "/Deposit"
+@using ArionBank.Account.Components
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Account
+@using ArionBank.Account.Service.Card
+@using ArionBank.Account.Service.Deposit
+@using ArionBank.Application.Models
+@using System.Security.Claims
+@using ArionBank.Domain.Enums
+@inject ICardService _cardService
+@inject IDepositService _depositService
+@inject NavigationManager NavigationManager
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка регистрации</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                @foreach (var Error in Error)
+                {
+                    <p>@Error</p>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<main class="col-lg-8" id="main">
+    <div class="h1 text-center" style="margin-top: 40px; font-size: 32px;">Оформление вклада под 8% от 10 000₽</div>
+    <div class="select" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-md-1 col-3">
+                <a class="deposit-a deposit-select" href="#">Вклады</a>
+            </div>
+            <div class="col-md-1 col-3">
+                <a class="deposit-a" href="#">Калькулятор</a>
+            </div>
+        </div>
+        <div class="mt-5">
+            <span>Счет</span>
+                <select @bind="depositModel.CardId" id="mInput" class="form-select mInput" aria-label="Default select example">
+                    <option value="">Выбрать счет</option>
+                    @if(cardList.Cards != null)
+                    @foreach(var Item in cardList.Cards)
+                    {
+                        if(Item.Type == TypesCard.Debit)
+                        {
+                            <option value="@Item.Id">@Item.Number - @Item.PaymentSystem | @Item.Id</option>
+                        }
+                    }
+                </select> 
+            <span>На какой срок</span>
+            <input @bind="depositModel.Date" id="mInput" type="date" min="@DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day" max="(@DateTime.Now.Year + 5)-@DateTime.Now.Month-@DateTime.Now.Day" class="form-control mInput-2">
+            <span>Сумма вклада</span>
+            <input @bind="depositModel.Ammount" id="mInput" type="text" class="form-control mInput-2">
+            <button @onclick="DepositHandler" class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Создать счет</button>
+        </div>
+    </div>
+</main>
+
+@code {
+    CreateDepositModel depositModel = new CreateDepositModel();
+    CardListModel cardList = new CardListModel();
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private IEnumerable<string> Error;
+    private bool ShowErrors;
+    private Guid UserId;
+
+    private async Task DepositHandler()
+    {
+        var result = await _depositService.CreateDeposit(depositModel);
+
+        if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Error = result.Errors;
+            ShowErrors = true;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        string id = string.Empty;
+        try
+        {
+            id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            UserId = Guid.Parse(id);   
+        }
+        catch{
+            Error.Append("Произошла непредвиденная ошибка");
+            ShowErrors = true;
+        }
+
+        cardList = await _cardService.GetCardList(UserId);
+    }
+}
