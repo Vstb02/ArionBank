@@ -31,21 +31,32 @@
 <main class="col-lg-8" id="main">
    <div class="h1 text-center" style="margin-top: 50px; font-size: 32px;">Оформление карты</div>
    <div class="select" style="margin-top: 120px;">
-        <span>Имя</span>
-        <input @bind="card.Name" name="Name" id="mInput" type="text" class="form-control mInput-2">
-        <span>Фамилия</span>
-        <input @bind="card.Surname" name="Surname" id="mInput" type="text" class="form-control mInput-2">
-        <span class="header-credit">Тип карты</span>
-        <select @bind="card.Type" id="mInput" class="form-select mInput" aria-label="Default select example">
-            <option value="@TypesCard.Credit">Кредитная</option>
-            <option value="@TypesCard.Debit">Дебетовая</option>
-        </select>
-        <span class="header-credit">Платежная система</span>
-        <select @bind="card.PaymentSystem" id="mInput" class="form-select mInput" aria-label="Default select example">
-            <option value="@PaymentSystems.MasterCard">MaserCard</option>
-            <option value="@PaymentSystems.Visa">Visa</option>
-        </select>
-        <button @onclick="HandelCard" class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Оформить</button>
+       <EditForm Model="card" OnValidSubmit="HandelCard">
+            <div style="color: red; text-align: left">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+            </div>
+
+            <div class="form-group">
+                <span>Имя</span>
+                <InputText type="text" id="mInput" Class="form-control mInput2" @bind-Value="card.Name" />
+            </div>
+            <div class="form-group">
+                <span>Фамилия</span>
+                <InputText type="password" id="mInput" Class="form-control mInput2" @bind-Value="card.Surname" />
+            </div>
+            <span class="header-credit">Тип карты</span>
+            <select @bind="card.Type" id="mInput" class="form-select mInput" aria-label="Default select example">
+                <option value="@TypesCard.Credit">Кредитная</option>
+                <option value="@TypesCard.Debit">Дебетовая</option>
+            </select>
+            <span class="header-credit">Платежная система</span>
+            <select @bind="card.PaymentSystem" id="mInput" class="form-select mInput" aria-label="Default select example">
+                <option value="@PaymentSystems.MasterCard">MaserCard</option>
+                <option value="@PaymentSystems.Visa">Visa</option>
+            </select>
+            <button @onclick="HandelCard" class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Оформить</button>
+        </EditForm>
     </div>
 </main>
 
