@@ -40,23 +40,19 @@ namespace ArionBank.Application.Services
 
             if(card == null)
             {
-                result.Errors.Append("Счет не найден");
-                return result;
+                return new DepositResult { Successful = false, Error = $"Счет не найден" };
             }
             if(model.Date < DateTime.Now)
             {
-                result.Errors.Append("Неправильная дата");
-                return result;
+                return new DepositResult { Successful = false, Error = $"Неправильная дата" };
             }
-            if (model.Ammount < 0)
+            if (model.Ammount <= 0)
             {
-                result.Errors.Append("Сумма не может быть отрицательной");
-                return result;
+                return new DepositResult { Successful = false, Error = $"Сумма должна быть больше нуля" };
             }
             if (card.Balance < model.Ammount)
             {
-                result.Errors.Append("Недостаточно средств");
-                return result;
+                return new DepositResult { Successful = false, Error = $"Недостаточно средств" };
             }
 
             card.Balance -= model.Ammount;

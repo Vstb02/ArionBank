@@ -16,15 +16,12 @@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
         <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">Ошибка регистрации</strong>
+                <strong class="me-auto">Ошибка оформления вклада</strong>
                 <small>@DateTime.Now.ToString("D")</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
             </div>
             <div class="toast-body">
-                @foreach (var Error in Error)
-                {
-                    <p>@Error</p>
-                }
+                <p>@Error</p>
             </div>
         </div>
     </div>
@@ -68,12 +65,18 @@
     CardListModel cardList = new CardListModel();
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private IEnumerable<string> Error;
+    private string Error;
     private bool ShowErrors;
     private Guid UserId;
 
     private async Task DepositHandler()
     {
+        if(depositModel.Ammount == null)
+        {
+            ShowErrors = true;
+            Error = "Добавьте сумму вклада";
+            return;
+        }
         var result = await _depositService.CreateDeposit(depositModel);
 
         if (result.Successful)
@@ -82,7 +85,7 @@
         }
         else
         {
-            Error = result.Errors;
+            Error = result.Error;
             ShowErrors = true;
         }
     }
@@ -100,7 +103,7 @@
             depositModel.UserId = UserId;
         }
         catch{
-            Error.Append("Произошла непредвиденная ошибка");
+            Error = "Произошла непредвиденная ошибка";
             ShowErrors = true;
         }
 

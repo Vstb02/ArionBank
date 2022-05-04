@@ -11,11 +11,11 @@ namespace ArionBank.Account.Service.Deposit
         {
             _httpClient = httpClient;
         }
-        public async Task<Result> CreateDeposit(CreateDepositModel model)
+        public async Task<DepositResult> CreateDeposit(CreateDepositModel model)
         {
             var result = await _httpClient.Client.PostAsJsonAsync("api/deposit/CreateDeposit", model);
             
-            var depositResult = await result.Content.ReadFromJsonAsync<Result>();
+            var depositResult = await result.Content.ReadFromJsonAsync<DepositResult>();
 
             return depositResult;
         }

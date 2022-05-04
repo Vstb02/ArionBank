@@ -16,13 +16,13 @@ namespace ArionBank.Main.Controllers
         {
             var result = await _depositService.CreateDeposit(model);
 
-            if (result.Errors == null)
+            if (result.Error == null)
             {
                 result.Successful = true;
             }
             else
             {
-                BadRequest(result.Errors);
+                BadRequest(result.Error);
             }
             return Ok(result);
         }

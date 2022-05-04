@@ -7,6 +7,7 @@
 @inject IAccountService AuthService
 @inject NavigationManager NavigationManager
 @inject IDepositService _depositService
+@inject IJSRuntime JS
 <AuthorizeView>
     <Authorized>
         <main class="col-lg-8" id="main">
@@ -110,16 +111,38 @@
         var authState = await authenticationStateTask;
         var user = authState.User;
 
-        string id = string.Empty;
-        try
+        if(user.Identity.IsAuthenticated)
         {
-            id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            UserId = Guid.Parse(id);
-            deposit = await _depositService.DepositByUserId(UserId);
-        }
-        catch{
-            Error.Append("Произошла непредвиденная ошибка");
-            ShowErrors = true;
+            string id = String.Empty;
+            try
+            {
+                var claimId = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).ToList();
+                if(claimId.Count > 0)
+                {
+                    id = claimId.FirstOrDefault().Value;
+                }
+                else
+                {
+                     await JS.InvokeAsync<bool>("document.location.reload", true);
+                }
+            }
+            catch
+            {
+                await JS.InvokeAsync<bool>("document.location.reload", true);
+            }
+            if(id != string.Empty)
+            {
+                Guid userId = Guid.Empty;
+                try
+                {
+                    userId = Guid.Parse(id);   
+                }
+                catch{
+                    Error.Append("Произошла непредвиденная ошибка");
+                    ShowErrors = true;
+                }
+                deposit = await _depositService.DepositByUserId(UserId);  
+            }  
         }
     }
 }
