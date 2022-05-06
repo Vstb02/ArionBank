@@ -14,7 +14,19 @@
             <div style="color: red; text-align: left">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-            </div> 
+            </div>
+        <span class="header-credit">Счет</span>
+        <select @bind="creditModel.CardId" id="mInput" class="form-select mInput" aria-label="Default select example">
+                    <option value="">Выбрать счет</option>
+                    @if(cardList.Cards != null)
+                    @foreach(var Item in cardList.Cards)
+                    {
+                        if(Item.Type == TypesCard.Debit)
+                        {
+                            <option value="@Item.Id">@Item.Number - @Item.PaymentSystem | @Item.Id</option>
+                        }
+                    }
+                </select> 
         <div class="mt-3">
             <span>Сумма, которую вы хотите взять</span>
             <input @bind="creditModel.Ammount" id="mInput" type="text" class="form-control mInput-2">
