@@ -5,17 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArionBank.Main.Controllers
 {
-    public class CreditController : ControllerBase
+    public class CreditController : ApiControllerBase
     {
-        private readonly IApplicationDbContext _context;
         private readonly ICreditService _creditService;
-        public CreditController(IApplicationDbContext context,
-            ICreditService creditService)
+        public CreditController(ICreditService creditService)
         {
-            _context = context;
             _creditService = creditService;
         }
-        [HttpGet("CreateCredit")]
+        [HttpPost("CreateCredit")]
         public async Task<IActionResult> CreateCredit(CreateCreditModel model)
         {
             var result = await _creditService.CreateCredit(model);
@@ -23,6 +20,10 @@ namespace ArionBank.Main.Controllers
             if (result.Errors == null)
             {
                 result.Successful = true;
+            }
+            else
+            {
+                BadRequest(result.Errors);
             }
 
             return Ok(result);

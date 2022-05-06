@@ -63,7 +63,9 @@
                     <span class="invest-h0 py-3 text-start">Услуги</span>
                     <div class="row">
                             <div class="col-4">
-                                <button class="btn-custom-2 w-100 mt-2 text-center">Оформить кредит</button>
+                                <form action="/credit">
+                                    <button class="btn-custom-2 w-100 mt-2 text-center">Оформить кредит</button>
+                                </form>
                             </div>
                             <div class="col-4">
                                 <form action="Deposit">
@@ -141,7 +143,7 @@
                     Error.Append("Произошла непредвиденная ошибка");
                     ShowErrors = true;
                 }
-                deposit = await _depositService.DepositByUserId(UserId);  
+                deposit = await _depositService.DepositByUserId(userId);  
             }  
         }
     }
