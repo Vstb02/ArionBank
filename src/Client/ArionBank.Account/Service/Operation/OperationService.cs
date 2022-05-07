@@ -22,14 +22,17 @@ namespace ArionBank.Account.Service.Operation
 
         public async Task<OperationHistoryListModel> OperationHistoryByUser(UserOperationModel model)
         {
-            var result = await _httpClient.Client.GetFromJsonAsync<OperationHistoryListModel>($"api/operation/InfestFreeTransfer/{model}");
+            var result = await _httpClient.Client.PostAsJsonAsync("api/operation/OperationHistoryByUser", model);
 
-            return result;
+            var opResult = await result.Content.ReadFromJsonAsync<OperationHistoryListModel>();
+
+            return opResult;
         }
+
 
         public async Task<Result> TransferWithPercent(OperationModel model)
         {
-            var result = await _httpClient.Client.PostAsJsonAsync("api/operation/InfestFreeTransfer", model);
+            var result = await _httpClient.Client.PostAsJsonAsync("api/Operation/TransferWithPercent", model);
 
             var depositResult = await result.Content.ReadFromJsonAsync<Result>();
 

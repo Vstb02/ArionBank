@@ -83,6 +83,7 @@
     private async Task OperationHandler()
     {
         opModel.Image = image;
+        opModel.Name = avatar.Name;
         var result = await _operationService.TransferWithPercent(opModel);
 
         if (result.Successful)

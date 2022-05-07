@@ -2,12 +2,15 @@
 @using ArionBank.Account.Components
 @using ArionBank.Account.Service.Account
 @using ArionBank.Account.Service.Deposit
+@using ArionBank.Account.Service.Operation
 @using ArionBank.Application.Models
 @using System.Security.Claims
+@using ArionBank.Domain.Enums
 @inject IAccountService AuthService
 @inject NavigationManager NavigationManager
 @inject IDepositService _depositService
 @inject IJSRuntime JS
+@inject IOperationService _operationService
 <AuthorizeView>
     <Authorized>
         <main class="col-lg-8" id="main">
@@ -81,15 +84,38 @@
                 </div>
                 <div class="row col-md-8">
                     <span class="invest-h0 py-3 mt-4 text-start">Последние операции</span>
-                    <div class="row" style="justify-content: space-between;">
-                        <div class="col-4">
-                            <img src="img/user-avatar.png" class="rounded-circle" alt="">
+                @if (@opHistrory.List != null)
+                {
+                    @foreach (var Item in opHistrory.List)
+                    {
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col-4">
+                                @if(@Item.Image != null)
+                                {
+                                    <img class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(@Item.Image))" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <img src="img/user-avatar.png" class="rounded-circle" alt="">
+                                }
+                            </div>
+                            @if(@Item.Type == @TypesOperation.Sent)
+                            {
+                            <div class="col-8" style="text-align: end;">
+                                <span class="d-block">@Item.Name</span>
+                                <span class="d-block text-danger">-@Item.Ammount ₽</span>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="col-8" style="text-align: end;">
+                                <span class="d-block">@Item.Name</span>
+                                <span class="d-block text-success">+@Item.Ammount ₽</span>
+                            </div>
+                            }
                         </div>
-                        <div class="col-8" style="text-align: end;">
-                            <span class="d-block">Пятерочка</span>
-                            <span class="d-block text-danger">-80,96 ₽</span>
-                        </div>
-                    </div>
+                    }
+                }
                 </div>
             </main>
     </Authorized>
@@ -104,9 +130,11 @@
     DepositModel deposit = new DepositModel();
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private IEnumerable<string> Error;
+    private List<string> Error;
     private bool ShowErrors;
     private Guid UserId;
+    private OperationHistoryListModel opHistrory = new OperationHistoryListModel();
+    private UserOperationModel userOperationModel = new UserOperationModel();
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,7 +153,7 @@
                 }
                 else
                 {
-                     await JS.InvokeAsync<bool>("document.location.reload", true);
+                    await JS.InvokeAsync<bool>("document.location.reload", true);
                 }
             }
             catch
@@ -143,8 +171,15 @@
                     Error.Append("Произошла непредвиденная ошибка");
                     ShowErrors = true;
                 }
-                deposit = await _depositService.DepositByUserId(userId);  
-            }  
+                deposit = await _depositService.DepositByUserId(userId);
+                userOperationModel.UserId = userId;
+                userOperationModel.Date = DateTime.Now;
+                opHistrory = await _operationService.OperationHistoryByUser(userOperationModel);
+            }
         }
+    }
+    public async Task opHanler()
+    {
+        
     }
 }

@@ -18,5 +18,6 @@ namespace ArionBank.Domain.Entities
         public decimal Ammount { get; set; }
         public DateTime Created { get; set; }
         public TypesOperation Type { get; set; }
+        public string Name { get; set; }
     }
 }

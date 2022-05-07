@@ -82,6 +82,7 @@
     private async Task OperationHandler()
     {
         opModel.Image = image;
+        opModel.Name = avatar.Name;
         var result = await _operationService.InfestFreeTransfer(opModel);
 
         if (result.Successful)

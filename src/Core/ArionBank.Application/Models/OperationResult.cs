@@ -9,6 +9,6 @@ namespace ArionBank.Application.Models
     public class OperationResult
     {
         public bool Successful { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public List<string> Errors = new List<string>();
     }
 }

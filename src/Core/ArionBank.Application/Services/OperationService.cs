@@ -58,11 +58,27 @@ namespace ArionBank.Application.Services
 
             OperationsHistory history = new OperationsHistory
             {
-                Ammount = ammount,
+                Ammount = model.Ammount,
                 Image = model.Image,
                 Created = DateTime.Now,
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                UserId = card1.UserId,
+                Type = TypesOperation.Sent,
+                Name = card1.Name
             };
+            OperationsHistory history2 = new OperationsHistory
+            {
+                Ammount = model.Ammount,
+                Image = model.Image,
+                Created = DateTime.Now,
+                Id = Guid.NewGuid(),
+                UserId = card2.UserId,
+                Type = TypesOperation.Arrived,
+                Name = model.Name
+            };
+
+            await _context.OperationsHistories.AddAsync(history);
+            await _context.OperationsHistories.AddAsync(history2);
 
             await _context.OperationsHistories.AddAsync(history);
             await _context.SaveChangesAsync();
@@ -76,28 +92,27 @@ namespace ArionBank.Application.Services
             var card1 = (await _context.Cards.Where(x => x.Id == model.CardId).ToListAsync()).FirstOrDefault();
             if (card1 == null)
             {
-                result.Errors.Append("Выбранный счет не найден");
-                throw new Exception($"Card with id {model.CardId} not found");
+                result.Errors.Add("Выбранный счет не найден");
             }
 
             var card2 = (await _context.Cards.Where(x => x.Number == model.Number).ToListAsync()).FirstOrDefault();
 
             if (card2 == null)
             {
-                result.Errors.Append("Указанный счет не найден");
-                throw new Exception($"Card with number {model.CardId} not found");
+                result.Errors.Add("Указанный счет не найден");
+                return result;
             }
 
             if (model.Ammount > int.MaxValue)
             {
-                result.Errors.Append("Слишком брольшая сумма");
-                throw new Exception($"Ammount greater than max int");
+                result.Errors.Add("Слишком брольшая сумма");
+                return result;
             }
 
             if (card1.Balance < model.Ammount)
             {
-                result.Errors.Append("Недостаточно средств");
-                throw new Exception($"Insufficient funds in the account");
+                result.Errors.Add("Недостаточно средств");
+                return result;
             }
 
             card2.Balance += model.Ammount;
@@ -110,7 +125,8 @@ namespace ArionBank.Application.Services
                 Created = DateTime.Now,
                 Id = Guid.NewGuid(),
                 UserId = card1.UserId,
-                Type = TypesOperation.Sent
+                Type = TypesOperation.Sent,
+                Name = card1.Name
             };
             OperationsHistory history2 = new OperationsHistory
             {
@@ -119,7 +135,8 @@ namespace ArionBank.Application.Services
                 Created = DateTime.Now,
                 Id = Guid.NewGuid(),
                 UserId = card2.UserId,
-                Type = TypesOperation.Arrived
+                Type = TypesOperation.Arrived,
+                Name = model.Name
             };
 
             await _context.OperationsHistories.AddAsync(history);
@@ -151,16 +168,17 @@ namespace ArionBank.Application.Services
 
             if(model.Date != null)
             {
-                operation = operation.Where(x => x.Created == model.Date).ToList();
+                operation = operation.Where(x => x.Created.Day == model.Date.Value.Day).ToList();
             }
 
             historyListModel.List = (from Item in operation
                                      select new OperationHistoryModel()
                                      {
+                                         Name = Item.Name,
                                          Ammount = Item.Ammount,
                                          Created = Item.Created,
                                          Image = Item.Image,
-                                         Type = Item.Type
+                                         Type = Item.Type,
                                      }).ToList();
 
             return historyListModel;

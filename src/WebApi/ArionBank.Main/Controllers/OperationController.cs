@@ -16,7 +16,7 @@ namespace ArionBank.Main.Controllers
         public async Task<IActionResult> InfestFreeTransfer(OperationModel model)
         {
             var result = await _operationService.InfestFreeTransfer(model);
-            if(result.Errors == null)
+            if(result.Errors.Count == 0)
             {
                 result.Successful = true;
             }
@@ -45,7 +45,7 @@ namespace ArionBank.Main.Controllers
         {
             return Ok(await _operationService.AllOperationHistory());
         }
-        [HttpGet("OperationHistoryByUser")]
+        [HttpPost("OperationHistoryByUser")]
         public async Task<IActionResult> OperationHistoryByUser(UserOperationModel model)
         {
             return Ok(await _operationService.OperationHistoryByUser(model));
