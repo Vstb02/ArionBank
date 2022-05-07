@@ -3,7 +3,7 @@
 namespace ArionBank.Main.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
+    [Route("api/[Controller]")]
     public class ApiControllerBase : ControllerBase
     {
     }

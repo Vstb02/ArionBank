@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/Client/ArionBank.Account/wwwroot/js/bootstrap.min.js.map
+/src/Client/ArionBank.Account/wwwroot/js/bootstrap.min.js

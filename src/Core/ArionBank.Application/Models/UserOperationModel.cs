@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ArionBank.Application.Models
+{
+    public class UserOperationModel
+    {
+        public Guid UserId { get; set; }
+        public DateTime? Date { get; set; }
+    }
+}

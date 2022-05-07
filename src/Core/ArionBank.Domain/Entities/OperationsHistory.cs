@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArionBank.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,9 +12,12 @@ namespace ArionBank.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public byte[] Image { get; set; }
+        public Guid UserId { get; set; }
+        public byte[]? Image { get; set; }
         [MaxLength(20)]
         public decimal Ammount { get; set; }
         public DateTime Created { get; set; }
+        public TypesOperation Type { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,0 +1,228 @@
+﻿@using ArionBank.Account.Service.Card
+@using ArionBank.Application.Models
+@using System.Security.Claims
+@inherits LayoutComponentBase
+@inject ICardService _cardService
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<PageTitle>ArionBank.Account</PageTitle>
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Список ошибок</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
+<AuthorizeView>
+    <Authorized>
+        <NavMenu></NavMenu>
+
+        <div class="container">
+        <div class="row py-4">
+            <div class="col-lg-4 order-lg-2 sticky-lg-top" id="sticky-sidebar">
+                <div class="sticky-top">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <span class="header-1">Мои карты</span>
+                        </div>
+                        <div class="col-6 arrow text-end">
+                            <a id="a-color-purple" data-bs-toggle="collapse" @onclick="Hide" href="#collapseCard" role="button" aria-expanded="true"
+                                aria-controls="collapseCard">
+                                <span href="#" style="margin-right: 10px" class="hide-btn" id="a-color-purple">Скрыть</span>
+                                @if(@block == "block")
+                                {
+                                    <img src="img/arrow-2.png" alt="">
+                                }
+                                else{
+                                    <img src="img/arrow.png" alt="">
+                                }
+                            </a>
+                        </div>
+                        @if(card.Number != null)
+                        {
+                            <div class="panel-collapse collapse show" id="collapseCard">
+                                <div class="row py-2 card-m">
+                                    <span class="number" style="display: @block">@card.Number</span>
+                                    <img src="img/Карта.svg" alt="">
+                                </div>
+                                <div class="row py-2 align-items-center">
+                                    <div class="col-7">
+                                        <svg width="36" height="36" viewBox="0 0 28 28" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="14" cy="14" r="14" fill="#E4E4E4" />
+                                            <path
+                                                d="M22 19.3333V20.2083C22 20.7083 21.8264 21.1319 21.4792 21.4792C21.1319 21.8264 20.7083 22 20.2083 22H7.79167C7.29167 22 6.86806 21.8264 6.52083 21.4792C6.17361 21.1319 6 20.7083 6 20.2083V7.79167C6 7.29167 6.17361 6.86806 6.52083 6.52083C6.86806 6.17361 7.29167 6 7.79167 6H20.2083C20.7083 6 21.1319 6.17361 21.4792 6.52083C21.8264 6.86806 22 7.29167 22 7.79167V8.66667H14C13.5 8.66667 13.0764 8.84028 12.7292 9.1875C12.3819 9.53472 12.2083 9.95833 12.2083 10.4583V17.5417C12.2083 18.0417 12.3819 18.4653 12.7292 18.8125C13.0764 19.1597 13.5 19.3333 14 19.3333H22ZM14 17.5417V10.4583H22.875V17.5417H14ZM17.5625 15.3333C17.9375 15.3333 18.25 15.2014 18.5 14.9375C18.75 14.6736 18.875 14.3611 18.875 14C18.875 13.6389 18.75 13.3264 18.5 13.0625C18.25 12.7986 17.9375 12.6667 17.5625 12.6667C17.1875 12.6667 16.8681 12.7986 16.6042 13.0625C16.3403 13.3264 16.2083 13.6389 16.2083 14C16.2083 14.3611 16.3403 14.6736 16.6042 14.9375C16.8681 15.2014 17.1875 15.3333 17.5625 15.3333Z"
+                                                fill="#6629B3" />
+                                        </svg>
+                                        <span class="card-1">Баланс</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="d-flex col-12 align-items-end" style="justify-content: space-between;">
+                                            <div>
+                                                <span class="card-h2">Всего</span>
+                                            </div>
+                                            <div>
+                                                <svg class="eye" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                                                    width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24">
+                                                    <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
+                                                    <g fill="none">
+                                                        <path
+                                                            d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="d-block value">@card.Balance</span>
+                                    </div>
+                                </div>
+                                <div class="row py-3 align-items-center">
+                                    <div class="col-7">
+                                        <svg width="36" height="36" viewBox="0 0 28 28" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="14" cy="14" r="14" fill="#E4E4E4" />
+                                            <path
+                                                d="M21.7359 10.8965L16.7769 10.1758L14.5601 5.68165C14.4996 5.5586 14.4 5.45899 14.2769 5.39844C13.9683 5.2461 13.5933 5.37305 13.439 5.68165L11.2222 10.1758L6.26325 10.8965C6.12653 10.916 6.00153 10.9805 5.90583 11.0781C5.79013 11.1971 5.72637 11.357 5.72857 11.5229C5.73077 11.6888 5.79874 11.8471 5.91755 11.9629L9.50544 15.4609L8.65778 20.4004C8.6379 20.5153 8.65062 20.6335 8.69449 20.7415C8.73835 20.8496 8.81161 20.9432 8.90596 21.0117C9.00031 21.0802 9.11198 21.1209 9.22829 21.1292C9.3446 21.1375 9.46091 21.113 9.56403 21.0586L13.9996 18.7266L18.4351 21.0586C18.5562 21.1231 18.6968 21.1445 18.8316 21.1211C19.1715 21.0625 19.4 20.7402 19.3414 20.4004L18.4937 15.4609L22.0816 11.9629C22.1793 11.8672 22.2437 11.7422 22.2633 11.6055C22.316 11.2637 22.0777 10.9473 21.7359 10.8965Z"
+                                                fill="#6629B3" />
+                                        </svg>
+                                        <span class="card-1">Бонусы</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="d-flex col-12 align-items-end" style="justify-content: space-between;">
+                                            <div>
+                                                <span class="card-h2">Всего</span>
+                                            </div>
+                                            <div>
+                                                <svg class="eye" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                                                    width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 24 24">
+                                                    <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
+                                                    <g fill="none">
+                                                        <path
+                                                            d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="d-block value">@card.Bonus</span>
+                                    </div>
+                                </div>
+                                <div class="row py-3">
+                                    <span class="card-h3">Информация о карте</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <span class="d-block card-h4">Статус</span>
+                                        <span class="d-block card-h4">Платежная система</span>
+                                        <span class="d-block card-h4">Тип карты</span>
+                                        <span class="d-block card-h4">Активна</span>
+                                    </div>
+                                    <div class="col-5 text-end d-block">
+                                        <span class="d-block card-h5">@card.Status</span>
+                                        <span class="d-block card-h5">@card.PaymentSystem</span>
+                                        <span class="d-block card-h5">@card.Type</span>
+                                        <span class="d-block card-h5">@card.Actived</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @Body
+        </div>
+    </div>
+    </Authorized>
+    <NotAuthorized>
+        @Body
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    private CardModel card = new CardModel();
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private IEnumerable<string> Error;
+    private bool ShowErrors;
+
+    private string block = "block";
+    void Hide()
+    {
+        if(card.Number != null)
+            if(block == "block")
+            {
+                block = "none";
+            }
+            else{
+                block = "block";
+            }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if(user.Identity.IsAuthenticated)
+        {
+            string id = String.Empty;
+            try
+            {
+                var claimId = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).ToList();
+                if(claimId.Count > 0)
+                {
+                    id = claimId.FirstOrDefault().Value;
+                }
+                else
+                {
+                    await JS.InvokeAsync<bool>("document.location.reload", true);
+                }
+            }
+            catch
+            {
+                await JS.InvokeAsync<bool>("document.location.reload", true);
+            }
+            if(id != string.Empty)
+            {
+                Guid userId = Guid.Empty;
+                try
+                {
+                    userId = Guid.Parse(id);   
+                }
+                catch{
+                    Error.Append("Произошла непредвиденная ошибка");
+                    ShowErrors = true;
+                }
+                card = await _cardService.GetCard(userId);    
+            }  
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}

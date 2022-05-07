@@ -10,6 +10,7 @@ namespace ArionBank.Application.Models
 {
     public class CardModel
     {
+        public Guid Id { get; set; }
         [MaxLength(200)]
         public string Number { get; set; }
         [MaxLength(200)]

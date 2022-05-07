@@ -1,0 +1,78 @@
+﻿@page "/Register"
+@using ArionBank.Account.Components
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Account
+@inject IAccountService AuthService
+@inject NavigationManager NavigationManager
+@layout EmptyLayout
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка регистрации</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                @foreach (var Error in Errors)
+                {
+                    <p>@Error</p>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="back">
+    <div class="panel col-md-8 col-11">
+        <div class="state"><br><img src="img/logo.png" alt=""><br><span>Регистрация</span></div>
+        <div class="form">
+                    <EditForm Model="RegisterModel" OnValidSubmit="HandleRegistration">
+                        <div style="color: red; text-align: left">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                        </div>
+                        <div class="row">
+                        <div class="col-6">
+                            <InputText type="text" Id="login" placeholder="Логин" Class="form-control" @bind-Value="RegisterModel.Login" />
+                            <InputText type="text" Id="surname" placeholder="Фамилия" Class="form-control" @bind-Value="RegisterModel.Surname" />
+                            <InputText type="text" Id="name" placeholder="Имя" Class="form-control" @bind-Value="RegisterModel.Name" />
+                        </div>
+                        <div class="col-6">
+                            <InputText type="text" Id="patronymic" placeholder="Отчество" Class="form-control" @bind-Value="RegisterModel.Patronymic" />
+                            <InputText type="password" Id="password" placeholder="Пароль" Class="form-control" @bind-Value="RegisterModel.Password" />
+                            <InputText type="password" Id="confirmPassword" placeholder="Пароль" Class="form-control" @bind-Value="RegisterModel.ConfirmPassword" />
+                        </div>
+                        </div>
+                        <button style="border: none; outline: none;" class="login">Зарегистрироваться</button>
+                    </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private RegisterModel RegisterModel = new RegisterModel();
+    private bool ShowErrors;
+    private IEnumerable<string> Errors;
+
+    private async Task HandleRegistration()
+    {
+        ShowErrors = false;
+
+        var result = await AuthService.Register(RegisterModel);
+
+        if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Errors = result.Errors;
+            ShowErrors = true;
+        }
+    }
+
+}

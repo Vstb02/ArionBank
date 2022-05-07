@@ -28,5 +28,7 @@ namespace ArionBank.Domain.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public DateTime Actived { get; set; }
+        public Guid UserId { get; set; }
+        public bool Selected { get; set; }
     }
 }

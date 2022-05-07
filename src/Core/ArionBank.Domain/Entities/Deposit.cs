@@ -12,10 +12,14 @@ namespace ArionBank.Domain.Entities
         [Key]
         public Guid Id { get; set; }
         [MaxLength(200)]
-        public string Number { get; set; }
+        public int Number { get; set; }
         [MaxLength(5)]
         public decimal Procent { get; set; }
         [MaxLength(20)]
-        public string Balance { get; set; }
+        public decimal Balance { get; set; }
+        public Guid CardId { get; set; }
+        public DateTime DateTime { get; set; }
+        public DateTime LastMoth { get; set; }
+        public Guid UserId { get; set; }
     }
 }

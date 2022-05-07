@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArionBank.Application.Common.Interfaces
+namespace ArionBank.Application.Models
 {
-    public interface IAccountService
+    public class CreditListModel
     {
+        public List<CreditModel> List { get; set; }
     }
 }
