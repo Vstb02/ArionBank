@@ -155,14 +155,11 @@
                 {
                     id = claimId.FirstOrDefault().Value;
                 }
-                else
-                {
-                    await JS.InvokeAsync<bool>("document.location.reload", true);
-                }
             }
             catch
             {
-                await JS.InvokeAsync<bool>("document.location.reload", true);
+                Error.Append("Произошла непредвиденная ошибка");
+                ShowErrors = true;
             }
             if(id != string.Empty)
             {
