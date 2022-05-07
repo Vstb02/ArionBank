@@ -124,7 +124,7 @@ namespace ArionBank.Application.Services
 
             if(deposit == null)
             {
-                return null;
+                return new DepositModel();
             }
 
             DepositModel model = new DepositModel
@@ -133,14 +133,15 @@ namespace ArionBank.Application.Services
                 Number = deposit.Number,
                 Procent = deposit.Procent
             };
+
             DateTime now = DateTime.Now;
+
             if (deposit.LastMoth.Month != now.Month)
             {
                 int count = now.Month - deposit.LastMoth.Month + now.Year - deposit.LastMoth.Year;
                 deposit.LastMoth = DateTime.Now;
                 model.Balance += model.Balance * deposit.Procent / 100;
             }
-
 
             await _context.SaveChangesAsync();
 

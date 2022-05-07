@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-12">
-                        <span class="invest-h0">Ваши вклады</span>
+                    <span class="invest-h0">Ваши вклады</span>
                         <div class="row align-items-center mt-3">
                             <div class="col-lg-2 col-1  text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -172,10 +172,10 @@
                     Error.Append("Произошла непредвиденная ошибка");
                     ShowErrors = true;
                 }
-                //deposit = await _depositService.DepositByUserId(userId);
                 userOperationModel.UserId = userId;
                 userOperationModel.Date = DateTime.Now;
                 opHistrory = await _operationService.OperationHistoryByUser(userOperationModel);
+                deposit = await _depositService.DepositByUserId(userId);
             }
         }
     }
