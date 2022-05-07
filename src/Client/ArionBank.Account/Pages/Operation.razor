@@ -61,22 +61,24 @@
     {
         var authState = await authenticationStateTask;
         var user = authState.User;
-
-        string id = string.Empty;
-        try
+        if(user.Identity.IsAuthenticated)
         {
-            id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            UserId = Guid.Parse(id);
-        }
-        catch{
-            Error.Append("Произошла непредвиденная ошибка");
-            ShowErrors = true;
-        }
+            string id = string.Empty;
+            try
+            {
+                id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+                UserId = Guid.Parse(id);
+            }
+            catch{
+                Error.Append("Произошла непредвиденная ошибка");
+                ShowErrors = true;
+            }
 
-        Name = user.Identity.Name;
-        avatar = await _managerService.GetAvatar(Name);
-        image = avatar.Avatar;
-        cardList = await _cardService.GetCardList(UserId);
+            Name = user.Identity.Name;
+            avatar = await _managerService.GetAvatar(Name);
+            image = avatar.Avatar;
+            cardList = await _cardService.GetCardList(UserId);         
+        }
 
     }
     private async Task OperationHandler()

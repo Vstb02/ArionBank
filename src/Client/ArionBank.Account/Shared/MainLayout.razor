@@ -4,6 +4,7 @@
 @inherits LayoutComponentBase
 @inject ICardService _cardService
 @inject IJSRuntime JS
+@inject NavigationManager NavigationManager
 
 <PageTitle>ArionBank.Account</PageTitle>
 
@@ -197,7 +198,7 @@
                 }
                 else
                 {
-                     await JS.InvokeAsync<bool>("document.location.reload", true);
+                    await JS.InvokeAsync<bool>("document.location.reload", true);
                 }
             }
             catch
@@ -217,6 +218,10 @@
                 }
                 card = await _cardService.GetCard(userId);    
             }  
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login");
         }
     }
 }

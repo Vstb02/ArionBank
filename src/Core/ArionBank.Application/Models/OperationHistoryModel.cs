@@ -9,7 +9,7 @@ namespace ArionBank.Application.Models
 {
     public class OperationHistoryModel
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public byte[]? Image { get; set; }
         public decimal Ammount { get; set; }
         public DateTime Created { get; set; }
