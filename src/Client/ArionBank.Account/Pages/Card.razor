@@ -16,10 +16,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
             </div>
             <div class="toast-body">
-                @foreach (var Error in Error)
-                {
-                    <p>@Error</p>
-                }
+                <p>@Error</p>
             </div>
         </div>
     </div>
@@ -55,7 +52,7 @@
                 <option value="@PaymentSystems.MasterCard">MaserCard</option>
                 <option value="@PaymentSystems.Visa">Visa</option>
             </select>
-            <button @onclick="HandelCard" class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Оформить</button>
+            <button class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Оформить</button>
         </EditForm>
     </div>
 </main>
@@ -64,7 +61,7 @@
     private CardCreateModel card = new CardCreateModel();
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private IEnumerable<string> Error;
+    private string Error;
     private bool ShowErrors;
 
 
@@ -78,7 +75,7 @@
             card.UserId = Guid.Parse(id);   
         }
         catch{
-            Error.Append("Произошла непредвиденная ошибка");
+            Error = "Произошла непредвиденная ошибка";
             ShowErrors = true;
         }
 
@@ -90,7 +87,7 @@
         }
         else
         {
-            Error = result.Errors;
+            Error = result.Error;
             ShowErrors = true;
         }
     }

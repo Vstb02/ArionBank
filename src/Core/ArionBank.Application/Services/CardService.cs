@@ -25,7 +25,7 @@ namespace ArionBank.Application.Services
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
-                result.Errors.Append("Нет данных");
+                result.Error = ("Нет данных");
             }
             DateTime now = DateTime.Now;
             var card = new Card()
