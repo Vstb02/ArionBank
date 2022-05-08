@@ -1,0 +1,47 @@
+﻿@page "/calc"
+<main class="col-lg-8" id="main">
+    <div class="h1 text-center" style="margin-top: 40px; font-size: 32px;">Оформление вклада под 8% от 10 000₽</div>
+    <div class="select" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-md-1 col-3">
+                <a id="noUnderline" href="/deposit" class="deposit-a">Вклады</a>
+            </div>
+            <div class="col-md-1 col-3">
+                <a id="noUnderline" href="/calc" class="deposit-a deposit-select">Калькулятор</a>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h6>Максимальная доходность 8%</h6>
+            <div style="margin-top: 30px;">
+                <span>На какой срок</span>
+                <input id="mInput" @bind="Date" type="date" class="form-control mInput-2">
+                <span>Сумма вклада</span>
+                <input id="mInput" @bind="@Value" type="text" class="form-control mInput-2">
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;" @onclick="Clac">Посчитать</button>
+            @if(show)
+            {
+               <div style="margin-top: 10px">
+                    <span>Накопите @Date.ToString("D") <span class="value">@Math.Round(@Answer, 2) ₽</span></span>   
+               </div>
+            }
+        </div>
+    </div>
+</main>
+@code {
+    private DateTime Date = DateTime.Now;
+    private double Value = 0;
+    private double Answer;
+    private bool show = false;
+    private async Task Clac()
+    {
+        Answer = Value;
+        show = true;
+        for (int i = 0; i < ((Date - DateTime.Now).Days / 30); i++)
+        {
+            Answer += Answer * 0.08 / 12;
+        }
+    }
+}
