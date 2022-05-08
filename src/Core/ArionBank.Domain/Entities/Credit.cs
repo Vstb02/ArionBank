@@ -17,6 +17,7 @@ namespace ArionBank.Domain.Entities
         public bool Insurance { get; set; }
         public string Purpose { get; set; }
         public bool Approved { get; set; }
+        public Guid UserId { get; set; }
 
         public Credit()
         {

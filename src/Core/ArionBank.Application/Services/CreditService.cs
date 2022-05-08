@@ -25,7 +25,8 @@ namespace ArionBank.Application.Services
 
             if(card == null)
             {
-                creditResult.Errors.Append("Счет не найден");
+                creditResult.Errors = "Счет не найден";
+                return creditResult;
             }
 
             var credit = new Credit()
@@ -38,12 +39,34 @@ namespace ArionBank.Application.Services
                 PlaceOfWork = model.PlaceOfWork,
                 Purpose = model.Purpose,
                 Term = model.Term,
+                UserId = model.UserId
             };
 
             await _context.Credits.AddAsync(credit);
             await _context.SaveChangesAsync();
 
             return creditResult;
+        }
+        public async Task<CreditListModel> GetAllCreditByUserId(Guid UserId)
+        {
+            
+            var creditListModel = new CreditListModel();
+            var credits = await _context.Credits.Where(x => x.UserId == UserId).ToListAsync();
+            creditListModel.List = (from Item in credits
+                                    select new CreditModel()
+                                    {
+                                        Id = Item.Id,
+                                        Ammount = Item.Ammount,
+                                        Approved = Item.Approved,
+                                        AverageSalary = Item.AverageSalary,
+                                        CardId = Item.CardId,
+                                        Insurance = Item.Insurance,
+                                        PlaceOfWork = Item.PlaceOfWork,
+                                        Purpose = Item.Purpose,
+                                        Term = Item.Term,
+                                    }).ToList();
+
+            return creditListModel;
         }
 
         public async Task<CreditListModel> GetAllCredit()
