@@ -61,7 +61,7 @@ namespace ArionBank.Application.Services
             {
                 Id = Guid.NewGuid(),
                 Balance = model.Ammount,
-                Procent = 10,
+                Procent = Convert.ToDecimal(0.8 / 12),
                 CardId = card.Id,
                 DateTime = model.Date,
                 LastMoth = DateTime.Now,
@@ -127,8 +127,6 @@ namespace ArionBank.Application.Services
                 return new DepositModel();
             }
 
-            deposit.Procent = Convert.ToDecimal(0.8 / 12);
-
             DepositModel model = new DepositModel
             {
                 Balance = deposit.Balance,
@@ -149,6 +147,40 @@ namespace ArionBank.Application.Services
             await _context.SaveChangesAsync();
 
             return model;
+        }
+        public async Task<DepositListModel> DepositListByUserId(Guid UserId)
+        {
+            DepositListModel depositList = new DepositListModel();
+            var deposit = (await _context.Deposits.Where(x => x.UserId == UserId).ToListAsync());
+
+            if (deposit == null)
+            {
+                return new DepositListModel();
+            }
+
+            DateTime now = DateTime.Now;
+
+            foreach(var Item in deposit)
+            {
+                if (Item.LastMoth.Month != now.Month)
+                {
+                    int count = now.Month - Item.LastMoth.Month + now.Year - Item.LastMoth.Year;
+                    Item.LastMoth = DateTime.Now;
+                    Item.Balance += Item.Balance * Item.Procent / 100;
+                }
+            }
+
+            depositList.List = (from Item in deposit
+                               select new DepositModel
+                               {
+                                   Balance = Item.Balance,
+                                   Number = Item.Number,
+                                   Procent = Item.Procent
+                               }).ToList();
+
+            await _context.SaveChangesAsync();
+
+            return depositList;
         }
     }
 }
