@@ -32,10 +32,10 @@
     <div class="select" style="margin-top: 100px;">
         <div class="row">
             <div class="col-md-1 col-3">
-                <a class="deposit-a deposit-select" href="#">Вклады</a>
+                <a id="noUnderline" class="deposit-a deposit-select" href="#">Вклады</a>
             </div>
             <div class="col-md-1 col-3">
-                <a class="deposit-a" href="#">Калькулятор</a>
+                <a id="noUnderline" class="deposit-a" href="#">Калькулятор</a>
             </div>
         </div>
         <div class="mt-5">
@@ -47,7 +47,7 @@
                     {
                         if(Item.Type == TypesCard.Debit)
                         {
-                            <option value="@Item.Id">@Item.Number - @Item.PaymentSystem | @Item.Id</option>
+                            <option value="@Item.Id">@Item.Number - @Item.PaymentSystem</option>
                         }
                     }
                 </select> 

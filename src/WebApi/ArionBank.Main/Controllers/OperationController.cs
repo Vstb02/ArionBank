@@ -16,13 +16,13 @@ namespace ArionBank.Main.Controllers
         public async Task<IActionResult> InfestFreeTransfer(OperationModel model)
         {
             var result = await _operationService.InfestFreeTransfer(model);
-            if(result.Errors.Count == 0)
+            if(result.Error == null)
             {
                 result.Successful = true;
             }
             else
             {
-                BadRequest(result.Errors);
+                BadRequest(result.Error);
             }
             return Ok(result);
         }
@@ -30,13 +30,13 @@ namespace ArionBank.Main.Controllers
         public async Task<IActionResult> TransferWithPercent(OperationModel model)
         {
             var result = await _operationService.TransferWithPercent(model);
-            if (result.Errors == null)
+            if (result.Error == null)
             {
                 result.Successful = true;
             }
             else
             {
-                BadRequest(result.Errors);
+                BadRequest(result.Error);
             }
             return Ok(result);
         }

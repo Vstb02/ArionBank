@@ -11,11 +11,11 @@ namespace ArionBank.Account.Service.Operation
         {
             _httpClient = httpClient;
         }
-        public async Task<Result> InfestFreeTransfer(OperationModel model)
+        public async Task<OperationResult> InfestFreeTransfer(OperationModel model)
         {
             var result = await _httpClient.Client.PostAsJsonAsync("api/operation/InfestFreeTransfer", model);
 
-            var depositResult = await result.Content.ReadFromJsonAsync<Result>();
+            var depositResult = await result.Content.ReadFromJsonAsync<OperationResult>();
 
             return depositResult;
         }
@@ -30,11 +30,11 @@ namespace ArionBank.Account.Service.Operation
         }
 
 
-        public async Task<Result> TransferWithPercent(OperationModel model)
+        public async Task<OperationResult> TransferWithPercent(OperationModel model)
         {
             var result = await _httpClient.Client.PostAsJsonAsync("api/Operation/TransferWithPercent", model);
 
-            var depositResult = await result.Content.ReadFromJsonAsync<Result>();
+            var depositResult = await result.Content.ReadFromJsonAsync<OperationResult>();
 
             return depositResult;
         }

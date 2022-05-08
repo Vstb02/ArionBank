@@ -9,6 +9,6 @@ namespace ArionBank.Application.Models
     public class CardResult
     {
         public bool Successful { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public string Error { get; set; }
     }
 }

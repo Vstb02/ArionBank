@@ -12,11 +12,10 @@ namespace ArionBank.Account.Service.Card
         {
             _httpClient = httpClient;
         }
-        public async Task<Result> CreateCard(CardCreateModel cardModel)
+        public async Task<CardResult> CreateCard(CardCreateModel cardModel)
         {
             var result = await _httpClient.Client.PostAsJsonAsync("api/card/CreateCard", cardModel);
-
-            var cardResult = await result.Content.ReadFromJsonAsync<Result>();
+            var cardResult = await result.Content.ReadFromJsonAsync<CardResult>();
 
             return cardResult;
         }
