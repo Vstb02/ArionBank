@@ -43,7 +43,7 @@
             </div>
 
             <span>На какой срок</span>
-            <input @bind="creditModel.Term" id="mInput" type="date" min="@DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day" class="form-control mInput-2">
+            <input @bind="creditModel.Term" id="mInput" type="date" min="@DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day" max="(@DateTime.Now.Year + 5)-@DateTime.Now.Month-@DateTime.Now.Day" class="form-control mInput-2">
             <span class="remark">Процентная ставка по кредиту составляет от 13% до 25%,
                 окончательный результат будет сообщен после проверки</span>
             <div @onclick="CreditHanlder" class="btn-custom-2 w-10 mt-2 text-center" style="width: 200px; margin: auto;">Продолжить</div>
@@ -63,6 +63,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        creditModel.Term = DateTime.Now;
         var authState = await authenticationStateTask;
         var user = authState.User;
 
