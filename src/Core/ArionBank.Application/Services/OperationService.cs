@@ -25,22 +25,22 @@ namespace ArionBank.Application.Services
             var card1 = (await _context.Cards.Where(x => x.Id == model.CardId).ToListAsync()).FirstOrDefault();
             if (card1 == null)
             {
-                result.Errors.Append("Выбранный счет не найден");
-                throw new Exception($"Card with id {model.CardId} not found");
+                result.Error = ("Выбранный счет не найден");
+                return result;
             }
 
             var card2 = (await _context.Cards.Where(x => x.Number == model.Number).ToListAsync()).FirstOrDefault();
 
             if (card2 == null)
             {
-                result.Errors.Append("Указанный счет не найден");
-                throw new Exception($"Card with number {model.CardId} not found");
+                result.Error = ("Указанный счет не найден");
+                return result;
             }
 
             if (model.Ammount > int.MaxValue)
             {
-                result.Errors.Append("Слишком брольшая сумма");
-                throw new Exception($"Ammount greater than max int");
+                result.Error = ("Слишком брольшая сумма");
+                return result;
             }
 
             double percent = 0.1;
@@ -48,10 +48,9 @@ namespace ArionBank.Application.Services
 
             if (card1.Balance < model.Ammount)
             {
-                result.Errors.Append("Недостаточно средств");
-                throw new Exception($"Insufficient funds in the account");
+                result.Error = ("Недостаточно средств");
+                return result;
             }
-
 
             card2.Balance += ammount;
             card1.Balance -= ammount;
@@ -92,26 +91,27 @@ namespace ArionBank.Application.Services
             var card1 = (await _context.Cards.Where(x => x.Id == model.CardId).ToListAsync()).FirstOrDefault();
             if (card1 == null)
             {
-                result.Errors.Add("Выбранный счет не найден");
+                result.Error = ("Выбранный счет не найден");
+                return result;
             }
 
             var card2 = (await _context.Cards.Where(x => x.Number == model.Number).ToListAsync()).FirstOrDefault();
 
             if (card2 == null)
             {
-                result.Errors.Add("Указанный счет не найден");
+                result.Error = ("Указанный счет не найден");
                 return result;
             }
 
             if (model.Ammount > int.MaxValue)
             {
-                result.Errors.Add("Слишком брольшая сумма");
+                result.Error = ("Слишком брольшая сумма");
                 return result;
             }
 
             if (card1.Balance < model.Ammount)
             {
-                result.Errors.Add("Недостаточно средств");
+                result.Error = ("Недостаточно средств");
                 return result;
             }
 

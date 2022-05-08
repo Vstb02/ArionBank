@@ -11,6 +11,22 @@
 @inject NavigationManager NavigationManager
 @inject IManagerService _managerService
 
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка регистрации</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+}
+
 <main class="col-lg-8" id="main">
     <div class="h1 text-center" style="margin-top: 50px; font-size: 32px;">Беспроцентный перевод между клиентами банка Arion</div>
     <div class="select" style="margin-top: 120px;">
@@ -49,7 +65,7 @@
 @code {
     OperationModel opModel = new OperationModel();
     CardListModel cardList = new CardListModel();
-    IEnumerable<string> Error = new List<string>();
+    private string Error;
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     private bool ShowErrors;
@@ -70,7 +86,7 @@
                 UserId = Guid.Parse(id);
             }
             catch{
-                Error.Append("Произошла непредвиденная ошибка");
+                Error = ("Произошла непредвиденная ошибка");
                 ShowErrors = true;
             }
 
@@ -93,7 +109,7 @@
         }
         else
         {
-            Error = result.Errors;
+            Error = result.Error;
             ShowErrors = true;
         }
     }
