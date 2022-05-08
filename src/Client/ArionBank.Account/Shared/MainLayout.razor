@@ -76,23 +76,33 @@
                                                 <span class="card-h2">Всего</span>
                                             </div>
                                             <div>
-                                                <svg class="eye" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
-                                                    width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
-                                                    viewBox="0 0 24 24">
-                                                    <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
-                                                    <g fill="none">
-                                                        <path
-                                                            d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                    </g>
-                                                </svg>
+                                                <button @onclick="uMoney">
+                                                    <svg class="eye" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                                                        width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
+                                                        viewBox="0 0 24 24">
+                                                        <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
+                                                        <g fill="none">
+                                                            <path
+                                                                d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
+                                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round" />
+                                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
-                                        <span class="d-block value">@card.Balance</span>
+                                        @if(UnWatchMoney == false)
+                                            {
+                                                <span class="d-block value">@card.Balance</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="d-block value">XXX XXX XXXX</span>
+                                            }
+                                        
                                     </div>
                                 </div>
                                 <div class="row py-3 align-items-center">
@@ -112,23 +122,32 @@
                                                 <span class="card-h2">Всего</span>
                                             </div>
                                             <div>
-                                                <svg class="eye" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
-                                                    width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
-                                                    viewBox="0 0 24 24">
-                                                    <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
-                                                    <g fill="none">
-                                                        <path
-                                                            d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                    </g>
-                                                </svg>
+                                                <button @onclick="uBonus" style="boreder:none; outline: inherit;">
+                                                    <svg class="eye" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                                                        width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet"
+                                                        viewBox="0 0 24 24">
+                                                        <rect x="0" y="0" width="24" height="24" fill="none" stroke="none" />
+                                                        <g fill="none">
+                                                            <path
+                                                                d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
+                                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round" />
+                                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
-                                        <span class="d-block value">@card.Bonus</span>
+                                            @if(UnWatchBonus == false)
+                                            {
+                                                <span class="d-block value">@card.Bonus</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="d-block value">XXX XXX XXXX</span>
+                                            }
                                     </div>
                                 </div>
                                 <div class="row py-3">
@@ -168,6 +187,8 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     private IEnumerable<string> Error;
     private bool ShowErrors;
+    private bool UnWatchBonus = false;
+    private bool UnWatchMoney = false;
 
     private string block = "block";
     void Hide()
@@ -180,6 +201,20 @@
             else{
                 block = "block";
             }
+    }
+    private async Task uBonus()
+    {
+        if (UnWatchBonus)
+            UnWatchBonus = false;
+        else
+            UnWatchBonus = true; 
+    }
+    private async Task uMoney()
+    {
+        if (UnWatchMoney)
+            UnWatchMoney = false;
+        else
+            UnWatchMoney = true; 
     }
 
     protected override async Task OnInitializedAsync()
