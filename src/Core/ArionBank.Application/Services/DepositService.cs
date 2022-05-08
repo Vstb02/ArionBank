@@ -127,12 +127,15 @@ namespace ArionBank.Application.Services
                 return new DepositModel();
             }
 
+            deposit.Procent = Convert.ToDecimal(0.8 / 12);
+
             DepositModel model = new DepositModel
             {
                 Balance = deposit.Balance,
                 Number = deposit.Number,
                 Procent = deposit.Procent
             };
+
 
             DateTime now = DateTime.Now;
 
