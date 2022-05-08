@@ -79,7 +79,6 @@ namespace ArionBank.Application.Services
             await _context.OperationsHistories.AddAsync(history);
             await _context.OperationsHistories.AddAsync(history2);
 
-            await _context.OperationsHistories.AddAsync(history);
             await _context.SaveChangesAsync();
 
             return result;

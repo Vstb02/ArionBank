@@ -36,7 +36,7 @@ namespace ArionBank.Main.Controllers
             }
             else
             {
-                return BadRequest(result.Error);
+                BadRequest(result.Error);
             }
             return Ok(result);
         }
