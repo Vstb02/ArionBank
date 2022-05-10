@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebUI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Start nav -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid header-container">
+            <a class="navbar-brand" id="logo-text" asp-controller="Home" asp-action="Index">
+                <img style="margin-top: -5px;" src="~/img/logo.png" alt="" width="53" height="53"
+                    class="d-inline-block align-text-top">
+                Arion
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mx-auto mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Index">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Credit">Кредиты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Invest">Вклады</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Card">Оформить карту</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Feedback">Обратная связь</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Контакты</a>
+                    </li>
+                </ul>
+                <form action="https://localhost:7265/">
+                    <button class="btn btn-login align-middle" type="submit">
+                        <img src="~/img/clarity_login-solid.png" alt="" width="27" height="27">Личный
+                        кабинет</button>
+                </form>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- End nav -->
+        <main role="main">
+            @RenderBody()
+        </main>
+
+        <!-- Start footer -->
+
+    <footer class="banner-gray page-footer font-small footer">
+        <div class="container text-md-left">
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <h5 class="text-uppercase footer-text-h"><img src="~/img/logo.png" width="53px" height="53px" alt="">
+                        ОНЛАЙН-БАНК ARION</h5>
+                    <p class="footer-text-p">Простой, удобный и надежный сервис, который поможет сохранить ваши деньги в безопасности.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-uppercase nav-header-footer">Навигация</h5>
+                    <ul class="ul-footer">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Кредиты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Вклады</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Оформить карту</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Обратная связь</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Контакты</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-uppercase nav-header-footer">Контакты</h5>
+                    <ul class="ul-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#">г. Кострома, ул. Симановского, д. 32</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">+ 8-997-930-88-88</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">ArionBank@gamil.com</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">InvestArion@gmail.com</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CreditArion@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+    </footer>
+
+    <!-- End footer -->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
