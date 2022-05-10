@@ -41,5 +41,10 @@ namespace ArionBank.Main.Controllers
         {
             return Ok(await _depositService.AllDeposit());
         }
+        [HttpGet("DepositListByUserId/{UserId}")]
+        public async Task<IActionResult> DepositListByUserId(Guid UserId)
+        {
+            return Ok(await _depositService.DepositListByUserId(UserId));
+        }
     }
 }

@@ -1,0 +1,78 @@
+﻿@page "/depositlist"
+@using ArionBank.Account.Models
+@using ArionBank.Account.Service.Deposit
+@using ArionBank.Application.Models
+@using System.Security.Claims
+@using ArionBank.Domain.Enums
+@inject IDepositService _depositService
+@inject NavigationManager NavigationManager
+
+@if (ShowErrors)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Ошибка оформления вклада</strong>
+                <small>@DateTime.Now.ToString("D")</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+            <div class="toast-body">
+                <p>@Error</p>
+            </div>
+        </div>
+    </div>
+}
+
+<main class="col-lg-8" id="main">
+    <div class="h1 text-center" style="margin-top: 50px; font-size: 32px;">Мои карты</div>
+    <table class="table">
+        <thead>
+        <tr style="font-size: 13px;">
+            <th scope="col">Номер</th>
+            <th scope="col">Баланс</th>
+            <th scope="col">Тип карты</th>
+        </tr>
+        @if(depositList.List != null)
+        {
+            @foreach (var Item in depositList.List)
+                {
+                 <tr style="font-size: 13px;">
+                    <td>@Item.Number</td>
+                    <td>@Item.Balance</td>
+                    <td>8</td>
+                </tr>   
+           }
+        }
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</main>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string Error;
+    private bool ShowErrors;
+    private Guid UserId;
+    DepositListModel depositList = new DepositListModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        string id = string.Empty;
+        try
+        {
+            id = user.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            UserId = Guid.Parse(id);
+        }
+        catch{
+            Error = "Произошла непредвиденная ошибка";
+            ShowErrors = true;
+        }
+
+        depositList = await _depositService.DepositListByUserId(UserId);
+    }
+}

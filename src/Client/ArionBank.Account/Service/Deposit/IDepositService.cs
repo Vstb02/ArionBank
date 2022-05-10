@@ -7,5 +7,6 @@ namespace ArionBank.Account.Service.Deposit
     {
         Task<DepositResult> CreateDeposit(CreateDepositModel model);
         Task<DepositModel> DepositByUserId(Guid UserId);
+        Task<DepositListModel> DepositListByUserId(Guid UserId);
     }
 }

@@ -12,6 +12,12 @@ namespace ArionBank.Main.Controllers
         {
             _creditService = creditService;
         }
+
+        [HttpGet("GetAllCreditByUserId/{UserId}")]
+        public async Task<IActionResult> GetAllCreditByUserId(Guid UserId)
+        {
+            return Ok(await _creditService.GetAllCreditByUserId(UserId));
+        }
         [HttpPost("CreateCredit")]
         public async Task<IActionResult> CreateCredit(CreateCreditModel model)
         {

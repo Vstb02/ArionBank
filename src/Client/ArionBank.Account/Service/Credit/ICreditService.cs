@@ -5,6 +5,7 @@ namespace ArionBank.Account.Service.Credit
 {
     public interface ICreditService
     {
-        Task<Result> CreateCredit(CreateCreditModel creditModel);
+        Task<CreditResult> CreateCredit(CreateCreditModel creditModel);
+        Task<CreditListModel> GetAllCreditByUserId(Guid UserId);
     }
 }

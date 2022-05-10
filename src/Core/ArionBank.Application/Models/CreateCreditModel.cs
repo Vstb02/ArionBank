@@ -24,5 +24,6 @@ namespace ArionBank.Application.Models
         [Required(ErrorMessage = "{0} обязательно должно быть заполнено")]
         [Display(Name = "Цель")]
         public string Purpose { get; set; }
+        public Guid UserId { get; set; }
     }
 }
