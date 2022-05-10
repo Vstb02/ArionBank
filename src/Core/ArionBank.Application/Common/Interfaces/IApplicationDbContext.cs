@@ -10,6 +10,7 @@ namespace ArionBank.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
+        DbSet<Feedback> Feedbacks { get; set; }
         DbSet<Card> Cards { get; set; }
         DbSet<Deposit> Deposits { get; set; }
         DbSet<Credit> Credits { get; set; }

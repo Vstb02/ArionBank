@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ArionBank.Application.Common.Interfaces;
+using ArionBank.Application.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebUI.Models;
 
@@ -7,14 +9,23 @@ namespace WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IFeedbackService _feedbackService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService)
         {
             _logger = logger;
+            _feedbackService = feedbackService;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Index(FeedbackModel model)
+        {
+            _feedbackService.CreateFeedback(model);
+
             return View();
         }
 
