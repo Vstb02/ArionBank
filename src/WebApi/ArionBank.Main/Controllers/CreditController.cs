@@ -39,7 +39,7 @@ namespace ArionBank.Main.Controllers
         {
             return Ok(await _creditService.GetAllCredit());
         }
-        [HttpGet("ApprovedCredit")]
+        [HttpPost("ApprovedCredit")]
         public async Task<IActionResult> ApprovedCredit(ApprovedCreditModel model)
         {
             return Ok(await _creditService.ApprovedCredit(model));

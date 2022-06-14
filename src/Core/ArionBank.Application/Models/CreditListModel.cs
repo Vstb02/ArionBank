@@ -8,6 +8,6 @@ namespace ArionBank.Application.Models
 {
     public class CreditListModel
     {
-        public List<CreditModel> List { get; set; }
+        public List<CreditModel> List { get; set; } = new List<CreditModel>();
     }
 }

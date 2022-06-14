@@ -69,7 +69,7 @@
         @if (result.Successful)
         {
             NavigationManager.NavigateTo("/Profile");
-            await JS.InvokeAsync<bool>("document.location.reload",true );
+            await JS.InvokeAsync<bool>("document.location.reload", true );
         }
         else
         {

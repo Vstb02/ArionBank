@@ -39,6 +39,7 @@ namespace ArionBank.Application.Services
                 PlaceOfWork = model.PlaceOfWork,
                 Purpose = model.Purpose,
                 Term = model.Term,
+                Approved = false,
                 UserId = model.UserId
             };
 
@@ -100,6 +101,9 @@ namespace ArionBank.Application.Services
             }
 
             credit.Approved = model.IsApproved;
+
+            _context.Credits.Update(credit);
+            await _context.SaveChangesAsync();
 
             return model.IsApproved;
         }

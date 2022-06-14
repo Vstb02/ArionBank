@@ -1,0 +1,83 @@
+﻿@page "/admin"
+@using ArionBank.Account.Components
+@using ArionBank.Account.Service.Credit
+@using ArionBank.Application.Models
+@inject NavigationManager NavigationManager
+@inject ICreditService _creditService
+@layout EmptyLayout
+
+<AuthorizeView Roles="Admin">
+    <div style="margin: 30px;">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Статус</th>
+              <th scope="col">Сумма</th>
+              <th scope="col">Страховка</th>
+              <th scope="col">Место работы</th>
+              <th scope="col">Средняя зарплата</th>
+              <th scope="col">Цель</th>
+              <th scope="col">Срок</th>
+              <th scope="col">Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+              @foreach(var Item in creditListModel.List)
+                {
+                    <tr>
+                        @if (Item.Approved == true)
+                        {
+                            <th scope="row" style="color: green">Одобрено</th>
+                        }
+                        else
+                        {
+                            <th scope="row" style="color: red">Отказано</th>
+                        }
+                        @if (Item.Insurance == true)
+                        {
+                            <th scope="row">Есть страховка</th>
+                        }
+                        else
+                        {
+                            <th scope="row">Нет страховки</th>
+                        }
+                  <td>@Item.Ammount</td>
+                  <td>@Item.PlaceOfWork</td>
+                  <td>@Item.AverageSalary</td>
+                  <td>@Item.Purpose</td>
+                  <td>@Item.Term.ToString("G")</td>
+                  <td><button class="btn btn-success" @onclick="() => Approved(Item.Id)">Одобрить</button></td>
+                </tr>   
+                }
+          </tbody>
+        </table>
+    </div>
+</AuthorizeView>
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private CreditListModel creditListModel = new CreditListModel();
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await authenticationStateTask).User;
+        if (!user.IsInRole("Admin"))
+        {
+            NavigationManager.NavigateTo("NotFound");
+        }
+
+        creditListModel = await _creditService.GetAllCredit();
+
+    }
+
+    public async void Approved(Guid creditId)
+    {
+        await _creditService.ApprovedCredit(new ApprovedCreditModel()
+            {
+                CreditId = creditId,
+                IsApproved = true
+            });
+        NavigationManager.NavigateTo("Admin", true);
+    }
+
+}

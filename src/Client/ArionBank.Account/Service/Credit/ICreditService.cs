@@ -7,5 +7,7 @@ namespace ArionBank.Account.Service.Credit
     {
         Task<CreditResult> CreateCredit(CreateCreditModel creditModel);
         Task<CreditListModel> GetAllCreditByUserId(Guid UserId);
+        Task ApprovedCredit(ApprovedCreditModel model);
+        Task<CreditListModel> GetAllCredit();
     }
 }

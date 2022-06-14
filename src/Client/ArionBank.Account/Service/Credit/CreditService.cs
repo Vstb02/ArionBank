@@ -25,5 +25,15 @@ namespace ArionBank.Account.Service.Credit
 
             return result;
         }
+        public async Task ApprovedCredit(ApprovedCreditModel model)
+        {
+            var result = await _httpClient.Client.PostAsJsonAsync("api/Credit/ApprovedCredit", model);
+        }
+        public async Task<CreditListModel> GetAllCredit()
+        {
+            var result = await _httpClient.Client.GetFromJsonAsync<CreditListModel>($"api/Credit/GetAllCredit");
+
+            return result;
+        }
     }
 }

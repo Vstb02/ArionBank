@@ -37,7 +37,9 @@
                 }
            </div>
                <h3 class="profile-name">@userModel.Name @userModel.Patronymic @userModel.Surname</h3>
-               <h5 class="profile-name"></h5>
+               <AuthorizeView Roles="admin, superuser">
+                   <h5 class="profile-name"><a href="Admin">Admins</a></h5>
+                </AuthorizeView>
            </div>
            <div class="col-md-6">
                  <h2 class="header-profile text-center">Контактные данные</h2>
