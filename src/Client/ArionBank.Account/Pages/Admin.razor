@@ -45,7 +45,7 @@
                   <td>@Item.PlaceOfWork</td>
                   <td>@Item.AverageSalary</td>
                   <td>@Item.Purpose</td>
-                  <td>@Item.Term.ToString("G")</td>
+                  <td>@Item.Term.ToShortDateString()</td>
                   <td><button class="btn btn-success" @onclick="() => Approved(Item.Id)">Одобрить</button></td>
                 </tr>   
                 }
